@@ -5,17 +5,13 @@ import { Menu, ExternalLink } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface TopbarProps {
-  sidebarCollapsed: boolean;
   onMobileMenuOpen: () => void;
 }
 
-export default function Topbar({ sidebarCollapsed, onMobileMenuOpen }: TopbarProps) {
+export default function Topbar({ onMobileMenuOpen }: TopbarProps) {
   return (
     <header
-      className={cn(
-        "fixed top-0 right-0 h-16 bg-[#0f1e3c] border-b border-white/10 z-20 flex items-center justify-between px-4 lg:px-6 transition-all duration-250",
-        sidebarCollapsed ? "lg:left-16" : "lg:left-60"
-      )}
+      className="h-16 bg-[#0f1e3c] border-b border-white/10 flex items-center justify-between px-4 lg:px-6"
     >
       {/* Left: Mobile menu + breadcrumb */}
       <div className="flex items-center gap-3">
