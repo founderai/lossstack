@@ -57,6 +57,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }))
   );
 
+  const xactimatePillarPages: MetadataRoute.Sitemap = [
+    { url: `${base}/xactimate-line-item-search`, lastModified: now, changeFrequency: "weekly", priority: 0.95 },
+    { url: `${base}/xactimate-roofing-codes`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/contractor-vs-insurance-estimate`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/what-is-xactimate`, lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${base}/roof-supplement-guide`, lastModified: now, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${base}/hail-damage-scope-example`, lastModified: now, changeFrequency: "monthly", priority: 0.88 },
+  ];
+
   return [
     ...staticPages,
     ...industryPages,
@@ -64,5 +73,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...xactimatePages,
     ...guidePages,
     ...programmaticPages,
+    ...xactimatePillarPages,
   ];
 }
