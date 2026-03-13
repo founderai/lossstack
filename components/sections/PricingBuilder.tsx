@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check, Star, Zap, Package, ExternalLink, Loader2 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { apps } from "@/data/apps";
 import { appPricingData, pricingConfig } from "@/data/pricing";
 import { cn } from "@/lib/utils";
@@ -117,10 +118,14 @@ export default function PricingBuilder() {
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
                     <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0"
+                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden"
                       style={{ backgroundColor: `${app.accentColor}18`, color: app.accentColor }}
                     >
-                      {appIconMap[app.id]}
+                      {app.id === "appraisly" ? (
+                        <Image src="/Appraisly Icon.png" alt="Appraisly" width={40} height={40} className="w-10 h-10 object-cover rounded-xl" />
+                      ) : (
+                        appIconMap[app.id]
+                      )}
                     </div>
                     <div>
                       <div className="font-bold text-[#0f1e3c] text-base leading-tight">{app.name}</div>

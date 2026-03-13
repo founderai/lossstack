@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { ExternalLink, ChevronRight } from "lucide-react";
+import Image from "next/image";
 import FeatureList from "@/components/sections/FeatureList";
 import Footer from "@/components/sections/Footer";
 import { apps } from "@/data/apps";
@@ -64,14 +65,18 @@ export default function AppsPage() {
                 }
               >
                 <span
-                  className="w-5 h-5 rounded-md flex items-center justify-center text-xs font-bold"
+                  className="w-5 h-5 rounded-md flex items-center justify-center text-xs font-bold overflow-hidden"
                   style={
                     activeApp === app.id
                       ? { backgroundColor: "rgba(255,255,255,0.25)", color: "white" }
                       : { backgroundColor: `${app.accentColor}18`, color: app.accentColor }
                   }
                 >
-                  {appIconMap[app.id]}
+                  {app.id === "appraisly" ? (
+                    <Image src="/Appraisly Icon.png" alt="Appraisly" width={20} height={20} className="w-5 h-5 object-cover rounded" />
+                  ) : (
+                    appIconMap[app.id]
+                  )}
                 </span>
                 {app.name}
               </button>
@@ -97,16 +102,24 @@ export default function AppsPage() {
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
                   <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-base"
+                    className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-base overflow-hidden"
                     style={{
                       backgroundColor: `${currentApp.accentColor}18`,
                       color: currentApp.accentColor,
                     }}
                   >
-                    {appIconMap[currentApp.id]}
+                    {currentApp.id === "appraisly" ? (
+                      <Image src="/Appraisly Icon.png" alt="Appraisly" width={56} height={56} className="w-14 h-14 object-cover rounded-2xl" />
+                    ) : (
+                      appIconMap[currentApp.id]
+                    )}
                   </div>
                   <div>
-                    <h2 className="text-2xl font-bold text-[#0f1e3c]">{currentApp.name}</h2>
+                    {currentApp.id === "appraisly" ? (
+                      <Image src="/Appraisly Logo.png" alt="Appraisly" width={160} height={40} className="h-8 w-auto object-contain mb-1" />
+                    ) : (
+                      <h2 className="text-2xl font-bold text-[#0f1e3c]">{currentApp.name}</h2>
+                    )}
                     {currentApp.badge && (
                       <span
                         className="text-xs font-semibold px-2.5 py-0.5 rounded-full"
