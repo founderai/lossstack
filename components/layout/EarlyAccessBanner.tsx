@@ -19,7 +19,7 @@ export default function EarlyAccessBanner({ onDismiss }: EarlyAccessBannerProps)
         As of {today}:
       </span>
       <span>
-        LossStack is actively being built.{" "}
+        LossStack — Appraisly, ImageLablr &amp; RestoreCam are all currently in <strong>Beta</strong>. Full launch April 1, 2026.{" "}
         <a
           href="mailto:founderai@pm.me?subject=LossStack Early Access&body=Hi, I'd like early access to LossStack."
           className="underline underline-offset-2 font-bold hover:opacity-80 transition-opacity"
