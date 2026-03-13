@@ -214,7 +214,7 @@ export default function PricingBuilder() {
                     <span className="text-[9px] font-bold text-slate-500">E</span>
                   </div>
                   <div>
-                    <div className="text-xs font-semibold text-slate-600">Enterprise / Corporate</div>
+                    <div className="text-xs font-semibold text-slate-600">Corporate</div>
                     <div className="text-[10px] text-slate-400">Contact us for custom pricing</div>
                   </div>
                 </a>
