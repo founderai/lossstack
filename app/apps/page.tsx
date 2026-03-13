@@ -101,22 +101,20 @@ export default function AppsPage() {
             <div className="flex flex-col lg:flex-row lg:items-start gap-6">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div
-                    className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-base overflow-hidden"
-                    style={{
-                      backgroundColor: `${currentApp.accentColor}18`,
-                      color: currentApp.accentColor,
-                    }}
-                  >
-                    {currentApp.id === "appraisly" ? (
-                      <Image src="/Appraisly Icon.png" alt="Appraisly" width={56} height={56} className="w-14 h-14 object-cover rounded-2xl" />
-                    ) : (
-                      appIconMap[currentApp.id]
-                    )}
-                  </div>
+                  {currentApp.id !== "appraisly" && (
+                    <div
+                      className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-base"
+                      style={{
+                        backgroundColor: `${currentApp.accentColor}18`,
+                        color: currentApp.accentColor,
+                      }}
+                    >
+                      {appIconMap[currentApp.id]}
+                    </div>
+                  )}
                   <div>
                     {currentApp.id === "appraisly" ? (
-                      <Image src="/Appraisly Logo.png" alt="Appraisly" width={160} height={40} className="h-8 w-auto object-contain mb-1" />
+                      <Image src="/Appraisly Logo.png" alt="Appraisly" width={200} height={52} className="h-10 w-auto object-contain" />
                     ) : (
                       <h2 className="text-2xl font-bold text-[#0f1e3c]">{currentApp.name}</h2>
                     )}

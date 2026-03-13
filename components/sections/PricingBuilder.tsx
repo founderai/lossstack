@@ -117,16 +117,16 @@ export default function PricingBuilder() {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-3">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden"
-                      style={{ backgroundColor: `${app.accentColor}18`, color: app.accentColor }}
-                    >
-                      {app.id === "appraisly" ? (
-                        <Image src="/Appraisly Icon.png" alt="Appraisly" width={40} height={40} className="w-10 h-10 object-cover rounded-xl" />
-                      ) : (
-                        appIconMap[app.id]
-                      )}
-                    </div>
+                    {app.id === "appraisly" ? (
+                      <Image src="/Appraisly Icon.png" alt="Appraisly" width={40} height={40} className="w-10 h-10 object-contain rounded-xl shrink-0" />
+                    ) : (
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center font-bold text-xs shrink-0"
+                        style={{ backgroundColor: `${app.accentColor}18`, color: app.accentColor }}
+                      >
+                        {appIconMap[app.id]}
+                      </div>
+                    )}
                     <div>
                       <div className="font-bold text-[#0f1e3c] text-base leading-tight">{app.name}</div>
                       <div className="text-slate-400 text-xs">{app.badge}</div>
