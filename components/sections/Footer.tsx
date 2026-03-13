@@ -59,16 +59,8 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li><Link href="/#contact" className="text-sm hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/#contact" className="text-sm hover:text-white transition-colors">Request a Demo</Link></li>
-              <li>
-                <span className="text-sm text-blue-200/30 cursor-not-allowed">
-                  Privacy Policy <span className="text-xs">(coming soon)</span>
-                </span>
-              </li>
-              <li>
-                <span className="text-sm text-blue-200/30 cursor-not-allowed">
-                  Terms of Service <span className="text-xs">(coming soon)</span>
-                </span>
-              </li>
+              <li><Link href="/privacy" className="text-sm hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link href="/terms" className="text-sm hover:text-white transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
