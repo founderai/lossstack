@@ -44,6 +44,31 @@ export const appPricingData: AppPricing[] = [
   },
 ];
 
+// Stripe Price IDs — keep in sync with Stripe dashboard
+export const stripePriceIds: Record<string, Record<string, string>> = {
+  appraisly: {
+    Solo:  "price_1T7M1wGhSLQ9s5VgMZDVvVtN",
+    Pro:   "price_1T7M1gGhSLQ9s5VgjjXXXdmf",
+    Elite: "price_1T7M1OGhSLQ9s5Vgcv6DVhjg",
+  },
+  imagelablr: {
+    Solo:   "price_1TAMs9GhSLQ9s5VgFCTCSDFW",
+    Pro:    "price_1TAMsaGhSLQ9s5Vg5Zo7OuEm",
+    Agency: "price_1TAMt3GhSLQ9s5Vg8tJYRUNz",
+  },
+  restorecam: {
+    Starter:    "price_1TAMFrGhSLQ9s5VgCTCaFvnm",
+    Pro:        "price_1TAMGfGhSLQ9s5Vggw4E8td7",
+    Enterprise: "price_1TAMHDGhSLQ9s5VgDBnoLeoO",
+  },
+};
+
+// Bundle coupon IDs from Stripe dashboard (applied server-side, no user-facing code)
+export const stripeCouponIds = {
+  twoApp:   "s3u9k72f",
+  threeApp: "vIYuKJ8G",
+};
+
 // Entry-level (lowest paid) price per app — used for bundle calculator baseline
 export const pricingConfig = {
   // Entry-level monthly price per app (lowest paid tier)

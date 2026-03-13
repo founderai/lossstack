@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Check, Star, Zap, Package, ExternalLink } from "lucide-react";
+import { Check, Star, Zap, Package, ExternalLink, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { apps } from "@/data/apps";
 import { appPricingData, pricingConfig } from "@/data/pricing";
@@ -38,6 +38,35 @@ export default function PricingBuilder() {
     if (!appData) return 0;
     const tier = appData.tiers[selectedTiers[appId] ?? 0];
     return typeof tier?.price === "number" ? tier.price : 0;
+  };
+
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  const handleCheckout = async () => {
+    setCheckoutLoading(true);
+    setCheckoutError(null);
+    try {
+      const selections = selectedApps.map((appId) => ({
+        appId,
+        tierName: appPricingData.find((a) => a.appId === appId)!.tiers[selectedTiers[appId] ?? 0].name,
+      }));
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ selections }),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        setCheckoutError(data.error ?? "Something went wrong. Please try again.");
+      }
+    } catch {
+      setCheckoutError("Something went wrong. Please try again.");
+    } finally {
+      setCheckoutLoading(false);
+    }
   };
 
   const selectedCount = selectedApps.length;
@@ -300,32 +329,40 @@ export default function PricingBuilder() {
               </div>
             )}
 
-            {/* CTA — links to each selected app's site */}
+            {/* Checkout CTA */}
             <div className="mt-5 space-y-2">
-              {selectedCount > 1 && (
-                <p className="text-blue-300/60 text-xs text-center mb-3">
-                  Subscribe to each app individually, then contact us to apply bundle pricing.
+              {selectedCount === 1 ? (
+                <p className="text-blue-300/60 text-xs text-center">
+                  Add a second app to unlock bundle pricing and checkout.
                 </p>
+              ) : (
+                <>
+                  <button
+                    onClick={handleCheckout}
+                    disabled={checkoutLoading}
+                    className="w-full flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-400 disabled:opacity-60 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl text-sm transition-colors"
+                  >
+                    {checkoutLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Redirecting to checkout…
+                      </>
+                    ) : (
+                      <>
+                        Subscribe — ${total}/mo
+                        {discountPercent > 0 && (
+                          <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs font-semibold">
+                            {discountPercent}% off
+                          </span>
+                        )}
+                      </>
+                    )}
+                  </button>
+                  {checkoutError && (
+                    <p className="text-red-400 text-xs text-center">{checkoutError}</p>
+                  )}
+                </>
               )}
-              <div className={cn("grid gap-2", selectedCount > 1 ? "grid-cols-2 lg:grid-cols-3" : "grid-cols-1")}>
-                {selectedApps.map((appId) => {
-                  const app = apps.find((a) => a.id === appId)!;
-                  const appData = appPricingData.find((a) => a.appId === appId)!;
-                  return (
-                    <Link
-                      key={appId}
-                      href={appData.pricingUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-1.5 py-2.5 rounded-lg font-semibold text-sm transition-colors"
-                      style={{ backgroundColor: app.accentColor, color: "white" }}
-                    >
-                      Get {app.name}
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </Link>
-                  );
-                })}
-              </div>
             </div>
           </motion.div>
         )}
