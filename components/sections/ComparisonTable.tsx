@@ -119,9 +119,12 @@ export default function ComparisonTable() {
                         <span className="font-bold text-[#0f1e3c]">${tier.price}/mo</span>
                       </div>
                     ))}
-                    {appData.tiers.some((t) => t.price === "Custom") && (
-                      <div className="text-slate-400 text-xs">+ Enterprise (custom)</div>
-                    )}
+                    <a
+                      href="mailto:founderai@pm.me?subject=Corporate Pricing Inquiry"
+                      className="text-blue-500 text-xs hover:underline block mt-0.5"
+                    >
+                      Corporate pricing →
+                    </a>
                     {appData.annualDiscount && (
                       <div className="text-teal-600 text-xs font-medium pt-0.5">{appData.annualDiscount}</div>
                     )}
