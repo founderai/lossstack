@@ -59,6 +59,7 @@ export default function Footer() {
             <ul className="space-y-2.5">
               <li><Link href="/#contact" className="text-sm hover:text-white transition-colors">Contact Us</Link></li>
               <li><Link href="/#contact" className="text-sm hover:text-white transition-colors">Request a Demo</Link></li>
+              <li><Link href="/status" className="text-sm hover:text-white transition-colors">System Status</Link></li>
               <li><Link href="/privacy" className="text-sm hover:text-white transition-colors">Privacy Policy</Link></li>
               <li><Link href="/terms" className="text-sm hover:text-white transition-colors">Terms of Service</Link></li>
             </ul>
