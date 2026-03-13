@@ -32,7 +32,7 @@ export default function ContactSection() {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <a
-                href="mailto:hello@lossstack.com"
+                href="mailto:founderai@pm.me?subject=LossStack Inquiry"
                 className="flex items-center gap-2.5 bg-white text-[#0f1e3c] font-bold px-6 py-3.5 rounded-lg hover:bg-blue-50 transition-colors text-sm shadow-sm w-full sm:w-auto justify-center"
               >
                 <Mail className="w-4 h-4" />
@@ -40,7 +40,7 @@ export default function ContactSection() {
                 <ArrowRight className="w-3.5 h-3.5" />
               </a>
               <a
-                href="mailto:demo@lossstack.com"
+                href="mailto:founderai@pm.me?subject=LossStack Demo Request"
                 className="flex items-center gap-2.5 bg-white/10 border border-white/20 text-white font-semibold px-6 py-3.5 rounded-lg hover:bg-white/15 transition-colors text-sm w-full sm:w-auto justify-center"
               >
                 <Calendar className="w-4 h-4" />
@@ -48,9 +48,6 @@ export default function ContactSection() {
               </a>
             </div>
 
-            <p className="text-blue-300/40 text-xs mt-8">
-              hello@lossstack.com · Placeholder — update with real contact info
-            </p>
           </div>
         </motion.div>
       </div>
