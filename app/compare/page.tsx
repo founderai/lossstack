@@ -98,14 +98,14 @@ export default function ComparePage() {
         {/* Corporate pricing — full-width banner */}
         <div className="mt-4 bg-[#0f1e3c] rounded-xl border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-5">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wide text-blue-300/70 mb-1">Corporate &amp; Enterprise</div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-blue-300/70 mb-1">Corporate</div>
             <div className="text-white font-bold text-lg mb-1">Need custom pricing for your organization?</div>
             <p className="text-blue-200/60 text-sm max-w-lg">
               Multi-team deployments, volume licensing, custom onboarding, and dedicated support — contact us and we&apos;ll build a plan around your operation.
             </p>
           </div>
           <a
-            href="mailto:founderai@pm.me?subject=Corporate Pricing Inquiry&body=Hi, I'm interested in corporate or enterprise pricing for LossStack."
+            href="mailto:founderai@pm.me?subject=Corporate Pricing Inquiry&body=Hi, I'm interested in corporate pricing for LossStack."
             className="flex items-center gap-2 bg-white text-[#0f1e3c] font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors text-sm shrink-0"
           >
             Contact Us for Corporate Pricing
