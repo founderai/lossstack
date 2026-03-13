@@ -22,7 +22,6 @@ export const appPricingData: AppPricing[] = [
       { name: "Solo",    price: 99,    description: "8 credits/mo · $18/cr overage" },
       { name: "Pro",     price: 199,   description: "18 credits/mo · $15/cr overage · CAT Packs" },
       { name: "Elite",   price: 349,   description: "35 credits/mo · $12/cr overage · CAT Packs" },
-      { name: "Enterprise", price: "Custom", description: "Custom credits · dedicated support" },
     ],
   },
   {
@@ -32,7 +31,6 @@ export const appPricingData: AppPricing[] = [
       { name: "Solo",       price: 99,      description: "3 seats · 1,000 AI analyses/mo · 50 GB storage" },
       { name: "Pro",        price: 199,     description: "5 seats · 5,000 AI analyses/mo · 200 GB storage" },
       { name: "Agency",     price: 349,     description: "10 seats · 15,000 AI analyses/mo · unlimited storage" },
-      { name: "Enterprise", price: "Custom", description: "Unlimited seats · unlimited AI · custom onboarding" },
     ],
   },
   {
