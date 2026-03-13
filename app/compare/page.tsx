@@ -50,10 +50,11 @@ export default function ComparePage() {
           </div>
         </div>
 
-        {/* Per-app pricing summary — pulled from real tier data */}
+        {/* Per-app pricing summary — paid tiers only */}
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           {appPricingData.map((appData) => {
             const app = apps.find((a) => a.id === appData.appId)!;
+            const paidTiers = appData.tiers.filter((t) => typeof t.price === "number");
 
             return (
               <div key={appData.appId} className="bg-white rounded-xl border border-slate-200 p-5 flex flex-col">
@@ -66,14 +67,12 @@ export default function ComparePage() {
                 <div className="font-bold text-[#0f1e3c] text-base mb-1">{app.name}</div>
                 <p className="text-slate-400 text-xs mb-4">{app.tagline}</p>
 
-                {/* Tier list */}
+                {/* Paid tiers only */}
                 <div className="space-y-1.5 mb-4 flex-1">
-                  {appData.tiers.map((tier) => (
+                  {paidTiers.map((tier) => (
                     <div key={tier.name} className="flex items-center justify-between text-sm">
                       <span className="text-slate-500">{tier.name}</span>
-                      <span className="font-semibold text-[#0f1e3c]">
-                        {typeof tier.price === "number" ? `$${tier.price}/mo` : "Custom"}
-                      </span>
+                      <span className="font-semibold text-[#0f1e3c]">${tier.price}/mo</span>
                     </div>
                   ))}
                 </div>
@@ -94,6 +93,24 @@ export default function ComparePage() {
               </div>
             );
           })}
+        </div>
+
+        {/* Corporate pricing — full-width banner */}
+        <div className="mt-4 bg-[#0f1e3c] rounded-xl border border-white/10 p-6 flex flex-col md:flex-row items-center justify-between gap-5">
+          <div>
+            <div className="text-xs font-semibold uppercase tracking-wide text-blue-300/70 mb-1">Corporate &amp; Enterprise</div>
+            <div className="text-white font-bold text-lg mb-1">Need custom pricing for your organization?</div>
+            <p className="text-blue-200/60 text-sm max-w-lg">
+              Multi-team deployments, volume licensing, custom onboarding, and dedicated support — contact us and we&apos;ll build a plan around your operation.
+            </p>
+          </div>
+          <a
+            href="mailto:founderai@pm.me?subject=Corporate Pricing Inquiry&body=Hi, I'm interested in corporate or enterprise pricing for LossStack."
+            className="flex items-center gap-2 bg-white text-[#0f1e3c] font-bold px-6 py-3 rounded-xl hover:bg-blue-50 transition-colors text-sm shrink-0"
+          >
+            Contact Us for Corporate Pricing
+            <ArrowRight className="w-4 h-4" />
+          </a>
         </div>
       </div>
 
