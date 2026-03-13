@@ -25,6 +25,7 @@ export default function AppCard({ app, index = 0, variant = "grid" }: AppCardPro
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.45, ease: "easeOut" as const }}
+      whileHover={{ y: -4, transition: { duration: 0.2 } }}
       className={cn(
         "group bg-white rounded-xl border border-slate-200/80 shadow-sm hover:shadow-md transition-all duration-200 overflow-hidden",
         variant === "featured" && "lg:flex"
