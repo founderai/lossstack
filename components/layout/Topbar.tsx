@@ -41,6 +41,12 @@ export default function Topbar({ onMobileMenuOpen }: TopbarProps) {
       <div className="flex items-center gap-3">
         <nav className="hidden md:flex items-center gap-1">
           <Link
+            href="/dashboard"
+            className="text-blue-200 hover:text-white text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-white/10 transition-all duration-150"
+          >
+            My Apps
+          </Link>
+          <Link
             href="/apps"
             className="text-blue-200 hover:text-white text-sm font-medium px-3 py-1.5 rounded-lg hover:bg-white/10 transition-all duration-150"
           >

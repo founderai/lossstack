@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Home,
   LayoutGrid,
+  LayoutDashboard,
   FileText,
   Image,
   Camera,
@@ -25,6 +26,7 @@ import { cn } from "@/lib/utils";
 const iconMap: Record<string, React.ElementType> = {
   Home,
   LayoutGrid,
+  LayoutDashboard,
   FileText,
   Image,
   Camera,
@@ -44,6 +46,7 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { id: "home", label: "Home", href: "/", icon: "Home" },
+  { id: "dashboard", label: "My Apps", href: "/dashboard", icon: "LayoutDashboard" },
   {
     id: "apps",
     label: "Apps",
