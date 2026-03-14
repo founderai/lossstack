@@ -229,18 +229,6 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
       >
         <SidebarContent />
 
-        {/* Collapse toggle */}
-        <button
-          onClick={() => onCollapse(!collapsed)}
-          className="absolute -right-3 top-[72px] w-6 h-6 bg-[#1a3060] border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-[#243d7a] transition-colors z-10"
-          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {collapsed ? (
-            <ChevronRight className="w-3 h-3" />
-          ) : (
-            <ChevronLeft className="w-3 h-3" />
-          )}
-        </button>
       </motion.aside>
 
       {/* Mobile Sidebar Overlay */}
