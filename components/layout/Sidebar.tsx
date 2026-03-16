@@ -61,7 +61,7 @@ const navItems: NavItem[] = [
   { id: "pricing", label: "Bundle Pricing", href: "/pricing", icon: "Layers" },
   { id: "compare", label: "Compare Plans", href: "/compare", icon: "BarChart2" },
   { id: "faqs", label: "FAQs", href: "/#faqs", icon: "HelpCircle" },
-  { id: "contact", label: "Contact / Demo", href: "/#contact", icon: "Mail" },
+  { id: "contact", label: "Contact / Demo", href: "/contact", icon: "Mail" },
 ];
 
 interface SidebarProps {
