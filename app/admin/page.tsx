@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Lock, Users, TrendingUp, DollarSign, LogOut, AlertCircle, CheckCircle, Clock, XCircle, Sparkles, Plus, Trash2, MapPin } from "lucide-react";
-import { mockUsers, type AdminUser, type UserStatus } from "@/data/adminUsers";
+import type { AdminUser, UserStatus } from "@/data/adminUsers";
 import { roadmapItems as initialRoadmap, type RoadmapItem } from "@/data/roadmap";
 import { cn } from "@/lib/utils";
 
-const ADMIN_PASSWORD = "lossstack2026";
+const ADMIN_PASSWORD = "I$aacFou0der2026!";
 
 const APP_OPTIONS: { value: RoadmapItem["app"]; label: string; color: string }[] = [
   { value: "appraisly",  label: "Appraisly",  color: "#3B82F6" },
@@ -46,30 +46,72 @@ export default function AdminPage() {
   const [pw, setPw] = useState("");
   const [pwError, setPwError] = useState(false);
   const [filter, setFilter] = useState<UserStatus | "all">("all");
+  const [users, setUsers] = useState<AdminUser[]>([]);
+  const [usersLoading, setUsersLoading] = useState(false);
+  const [usersError, setUsersError] = useState("");
   const [roadmap, setRoadmap] = useState<RoadmapItem[]>(initialRoadmap);
   const [newTitle, setNewTitle] = useState("");
   const [newDesc, setNewDesc] = useState("");
   const [newApp, setNewApp] = useState<RoadmapItem["app"]>("lossstack");
+  const [newQuarter, setNewQuarter] = useState("");
   const [addError, setAddError] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  const addRoadmapItem = () => {
+  useEffect(() => {
+    fetch("/api/roadmap")
+      .then((r) => r.json())
+      .then(setRoadmap)
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (!authed) return;
+    setUsersLoading(true);
+    setUsersError("");
+    fetch("/api/admin/users")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) setUsers(data);
+        else setUsersError(data.error ?? "Failed to load users.");
+      })
+      .catch(() => setUsersError("Network error loading users."))
+      .finally(() => setUsersLoading(false));
+  }, [authed]);
+
+  const addRoadmapItem = async () => {
     if (!newTitle.trim()) { setAddError("Title is required."); return; }
-    const item: RoadmapItem = {
-      id: `r-${Date.now()}`,
-      app: newApp,
-      title: newTitle.trim(),
-      description: newDesc.trim(),
-      status: "coming_soon",
-    };
-    setRoadmap((prev) => [...prev, item]);
-    setNewTitle("");
-    setNewDesc("");
-    setNewApp("lossstack");
-    setAddError("");
+    setSaving(true);
+    try {
+      const res = await fetch("/api/roadmap", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: newTitle, description: newDesc, app: newApp, quarter: newQuarter }),
+      });
+      const item = await res.json();
+      if (res.ok) {
+        setRoadmap((prev) => [...prev, item]);
+        setNewTitle("");
+        setNewDesc("");
+        setNewApp("lossstack");
+        setNewQuarter("");
+        setAddError("");
+      } else {
+        setAddError(item.error ?? "Failed to save.");
+      }
+    } catch {
+      setAddError("Network error. Try again.");
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const removeRoadmapItem = (id: string) => {
+  const removeRoadmapItem = async (id: string) => {
     setRoadmap((prev) => prev.filter((i) => i.id !== id));
+    await fetch("/api/roadmap", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id }),
+    }).catch(() => {});
   };
 
   const handleLogin = () => {
@@ -82,14 +124,14 @@ export default function AdminPage() {
   };
 
   const filtered = useMemo(() =>
-    filter === "all" ? mockUsers : mockUsers.filter((u) => u.status === filter),
-    [filter]
+    filter === "all" ? users : users.filter((u) => u.status === filter),
+    [filter, users]
   );
 
-  const activeUsers = mockUsers.filter((u) => u.status === "active");
-  const churnedUsers = mockUsers.filter((u) => u.status === "churned");
-  const trialUsers = mockUsers.filter((u) => u.status === "trial");
-  const mrr = mockUsers.filter((u) => u.status === "active").reduce((sum, u) => sum + u.monthlyRevenue, 0);
+  const activeUsers = users.filter((u) => u.status === "active");
+  const churnedUsers = users.filter((u) => u.status === "churned");
+  const trialUsers = users.filter((u) => u.status === "trial");
+  const mrr = activeUsers.reduce((sum, u) => sum + u.monthlyRevenue, 0);
 
   if (!authed) {
     return (
@@ -188,6 +230,14 @@ export default function AdminPage() {
             })}
           </div>
         </div>
+
+        {/* Users loading/error */}
+        {usersLoading && (
+          <div className="text-center py-6 text-slate-400 text-sm">Loading subscribers from Stripe…</div>
+        )}
+        {usersError && (
+          <div className="bg-red-50 border border-red-200 rounded-xl px-5 py-3 text-red-600 text-sm">{usersError}</div>
+        )}
 
         {/* Users table */}
         <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
@@ -300,6 +350,7 @@ export default function AdminPage() {
                       <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: `${appCfg?.color}15`, color: appCfg?.color }}>
                         {appCfg?.label}
                       </span>
+                      {item.quarter && <span className="text-xs text-slate-400">{item.quarter}</span>}
                     </div>
                     {item.description && <p className="text-slate-400 text-xs">{item.description}</p>}
                   </div>
@@ -334,6 +385,19 @@ export default function AdminPage() {
                   <option key={a.value} value={a.value}>{a.label}</option>
                 ))}
               </select>
+              <select
+                value={newQuarter}
+                onChange={(e) => setNewQuarter(e.target.value)}
+                className="border border-slate-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#0f1e3c] bg-white"
+              >
+                <option value="">No quarter</option>
+                <option value="Q1 2026">Q1 2026</option>
+                <option value="Q2 2026">Q2 2026</option>
+                <option value="Q3 2026">Q3 2026</option>
+                <option value="Q4 2026">Q4 2026</option>
+                <option value="Q1 2027">Q1 2027</option>
+                <option value="Q2 2027">Q2 2027</option>
+              </select>
             </div>
             <textarea
               placeholder="Description (optional)"
@@ -345,9 +409,10 @@ export default function AdminPage() {
             {addError && <p className="text-red-500 text-xs">{addError}</p>}
             <button
               onClick={addRoadmapItem}
-              className="flex items-center gap-2 bg-[#0f1e3c] hover:bg-[#1a3060] text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+              disabled={saving}
+              className="flex items-center gap-2 bg-[#0f1e3c] hover:bg-[#1a3060] disabled:opacity-50 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
             >
-              <Plus className="w-4 h-4" /> Add to Roadmap
+              <Plus className="w-4 h-4" /> {saving ? "Saving…" : "Add to Roadmap"}
             </button>
           </div>
         </div>

@@ -1,11 +1,14 @@
 import Footer from "@/components/sections/Footer";
 import { Sparkles } from "lucide-react";
-import { roadmapItems } from "@/data/roadmap";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 export const metadata = {
   title: "Roadmap | LossStack",
   description: "See what's coming next across the LossStack suite.",
 };
+
+export const revalidate = 0;
 
 const appConfig: Record<string, { label: string; color: string }> = {
   appraisly:  { label: "Appraisly",  color: "#3B82F6" },
@@ -14,7 +17,27 @@ const appConfig: Record<string, { label: string; color: string }> = {
   lossstack:  { label: "All Apps",   color: "#6366F1" },
 };
 
+interface RoadmapItem {
+  id: string;
+  app: string;
+  title: string;
+  description: string;
+  status: string;
+  quarter?: string;
+}
+
+function getRoadmapItems(): RoadmapItem[] {
+  try {
+    const file = join(process.cwd(), "data", "roadmap.json");
+    return JSON.parse(readFileSync(file, "utf-8"));
+  } catch {
+    return [];
+  }
+}
+
 export default function RoadmapPage() {
+  const roadmapItems = getRoadmapItems();
+
   return (
     <div className="min-h-screen bg-[#f5f0e8]">
       {/* Header */}
@@ -57,8 +80,13 @@ export default function RoadmapPage() {
                       >
                         {app.label}
                       </span>
+                      {item.quarter && (
+                        <span className="text-xs text-slate-400 shrink-0">{item.quarter}</span>
+                      )}
                     </div>
-                    <p className="text-slate-400 text-xs leading-relaxed">{item.description}</p>
+                    {item.description && (
+                      <p className="text-slate-400 text-xs leading-relaxed">{item.description}</p>
+                    )}
                   </div>
                 </div>
               );
