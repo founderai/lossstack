@@ -1,0 +1,250 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import { Lock, Users, TrendingUp, DollarSign, LogOut, AlertCircle, CheckCircle, Clock, XCircle } from "lucide-react";
+import { mockUsers, type AdminUser, type UserStatus } from "@/data/adminUsers";
+import { cn } from "@/lib/utils";
+
+const ADMIN_PASSWORD = "lossstack2026";
+
+function durationLabel(joinedAt: string, churnedAt?: string): string {
+  const start = new Date(joinedAt);
+  const end = churnedAt ? new Date(churnedAt) : new Date();
+  const days = Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  if (days < 30) return `${days}d`;
+  const months = Math.floor(days / 30);
+  return `${months}mo ${days % 30}d`;
+}
+
+const statusConfig: Record<UserStatus, { label: string; color: string; bg: string; icon: React.ReactNode }> = {
+  active: { label: "Active", color: "text-teal-700", bg: "bg-teal-50", icon: <CheckCircle className="w-3.5 h-3.5" /> },
+  churned: { label: "Churned", color: "text-red-600", bg: "bg-red-50", icon: <XCircle className="w-3.5 h-3.5" /> },
+  trial: { label: "Trial", color: "text-amber-700", bg: "bg-amber-50", icon: <Clock className="w-3.5 h-3.5" /> },
+};
+
+const appColors: Record<string, string> = {
+  appraisly: "#3B82F6",
+  imagelablr: "#0D9488",
+  restorecam: "#F59E0B",
+};
+const appLabels: Record<string, string> = {
+  appraisly: "Appraisly",
+  imagelablr: "ImageLablr",
+  restorecam: "RestoreCam",
+};
+
+export default function AdminPage() {
+  const [authed, setAuthed] = useState(false);
+  const [pw, setPw] = useState("");
+  const [pwError, setPwError] = useState(false);
+  const [filter, setFilter] = useState<UserStatus | "all">("all");
+
+  const handleLogin = () => {
+    if (pw === ADMIN_PASSWORD) {
+      setAuthed(true);
+      setPwError(false);
+    } else {
+      setPwError(true);
+    }
+  };
+
+  const filtered = useMemo(() =>
+    filter === "all" ? mockUsers : mockUsers.filter((u) => u.status === filter),
+    [filter]
+  );
+
+  const activeUsers = mockUsers.filter((u) => u.status === "active");
+  const churnedUsers = mockUsers.filter((u) => u.status === "churned");
+  const trialUsers = mockUsers.filter((u) => u.status === "trial");
+  const mrr = mockUsers.filter((u) => u.status === "active").reduce((sum, u) => sum + u.monthlyRevenue, 0);
+
+  if (!authed) {
+    return (
+      <div className="min-h-screen bg-[#0f1e3c] flex items-center justify-center px-4">
+        <div className="bg-white rounded-2xl shadow-xl p-8 w-full max-w-sm">
+          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-[#0f1e3c] mx-auto mb-6">
+            <Lock className="w-6 h-6 text-white" />
+          </div>
+          <h1 className="text-xl font-bold text-[#0f1e3c] text-center mb-1">Admin Access</h1>
+          <p className="text-slate-400 text-sm text-center mb-6">LossStack internal dashboard</p>
+          <input
+            type="password"
+            placeholder="Password"
+            value={pw}
+            onChange={(e) => { setPw(e.target.value); setPwError(false); }}
+            onKeyDown={(e) => e.key === "Enter" && handleLogin()}
+            className={cn(
+              "w-full border rounded-xl px-4 py-3 text-sm outline-none mb-3 transition-colors",
+              pwError ? "border-red-400 bg-red-50" : "border-slate-200 focus:border-[#0f1e3c]"
+            )}
+          />
+          {pwError && (
+            <div className="flex items-center gap-1.5 text-red-500 text-xs mb-3">
+              <AlertCircle className="w-3.5 h-3.5" /> Incorrect password
+            </div>
+          )}
+          <button
+            onClick={handleLogin}
+            className="w-full bg-[#0f1e3c] hover:bg-[#1a3060] text-white font-semibold py-3 rounded-xl transition-colors text-sm"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen bg-slate-100">
+      {/* Header */}
+      <div className="bg-[#0f1e3c] px-6 py-5 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-400 to-teal-400 flex items-center justify-center">
+            <span className="text-white font-bold text-sm">LS</span>
+          </div>
+          <div>
+            <div className="text-white font-bold text-base leading-none">LossStack Admin</div>
+            <div className="text-blue-300/60 text-xs mt-0.5">Internal Dashboard</div>
+          </div>
+        </div>
+        <button
+          onClick={() => setAuthed(false)}
+          className="flex items-center gap-1.5 text-blue-300/70 hover:text-white text-xs transition-colors"
+        >
+          <LogOut className="w-4 h-4" /> Sign out
+        </button>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {[
+            { label: "Active Subscribers", value: activeUsers.length, icon: <CheckCircle className="w-5 h-5 text-teal-500" />, color: "text-teal-600" },
+            { label: "Churned", value: churnedUsers.length, icon: <XCircle className="w-5 h-5 text-red-400" />, color: "text-red-500" },
+            { label: "Trials", value: trialUsers.length, icon: <Clock className="w-5 h-5 text-amber-500" />, color: "text-amber-600" },
+            { label: "MRR", value: `$${mrr.toLocaleString("en-US", { minimumFractionDigits: 2 })}`, icon: <DollarSign className="w-5 h-5 text-blue-500" />, color: "text-blue-600" },
+          ].map((stat) => (
+            <div key={stat.label} className="bg-white rounded-2xl border border-slate-200 p-5 flex items-center gap-4">
+              <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center shrink-0">
+                {stat.icon}
+              </div>
+              <div>
+                <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
+                <div className="text-slate-400 text-xs">{stat.label}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* App breakdown */}
+        <div className="bg-white rounded-2xl border border-slate-200 p-6">
+          <div className="flex items-center gap-2 mb-5">
+            <TrendingUp className="w-4 h-4 text-slate-400" />
+            <h2 className="font-bold text-[#0f1e3c] text-base">Active Subscribers by App</h2>
+          </div>
+          <div className="grid grid-cols-3 gap-4">
+            {(["appraisly", "imagelablr", "restorecam"] as const).map((appId) => {
+              const count = activeUsers.filter((u) => u.apps.includes(appId)).length;
+              return (
+                <div key={appId} className="rounded-xl border border-slate-100 p-4 text-center">
+                  <div className="text-2xl font-bold mb-1" style={{ color: appColors[appId] }}>{count}</div>
+                  <div className="text-xs text-slate-400">{appLabels[appId]}</div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Users table */}
+        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <Users className="w-4 h-4 text-slate-400" />
+              <h2 className="font-bold text-[#0f1e3c] text-base">All Users</h2>
+            </div>
+            <div className="flex items-center gap-2">
+              {(["all", "active", "trial", "churned"] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  className={cn(
+                    "text-xs font-semibold px-3 py-1.5 rounded-lg capitalize transition-colors",
+                    filter === f
+                      ? "bg-[#0f1e3c] text-white"
+                      : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                  )}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-slate-50 border-b border-slate-100">
+                <tr>
+                  {["Name", "Email", "Apps", "Tier", "Status", "Joined", "Duration", "MRR"].map((h) => (
+                    <th key={h} className="px-5 py-3 text-left text-xs font-semibold text-slate-400 uppercase tracking-wide whitespace-nowrap">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {filtered.map((user: AdminUser) => {
+                  const s = statusConfig[user.status];
+                  return (
+                    <tr key={user.id} className="hover:bg-slate-50/50 transition-colors">
+                      <td className="px-5 py-4 font-semibold text-[#0f1e3c] whitespace-nowrap">{user.name}</td>
+                      <td className="px-5 py-4 text-slate-500 whitespace-nowrap">{user.email}</td>
+                      <td className="px-5 py-4">
+                        <div className="flex gap-1.5 flex-wrap">
+                          {user.apps.map((a) => (
+                            <span
+                              key={a}
+                              className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                              style={{ backgroundColor: `${appColors[a]}18`, color: appColors[a] }}
+                            >
+                              {appLabels[a]}
+                            </span>
+                          ))}
+                        </div>
+                      </td>
+                      <td className="px-5 py-4 text-slate-500 text-xs whitespace-nowrap">{user.tier}</td>
+                      <td className="px-5 py-4">
+                        <span className={cn("flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full w-fit", s.bg, s.color)}>
+                          {s.icon} {s.label}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-slate-400 text-xs whitespace-nowrap">
+                        {new Date(user.joinedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </td>
+                      <td className="px-5 py-4 text-slate-500 text-xs whitespace-nowrap">
+                        {durationLabel(user.joinedAt, user.churnedAt)}
+                        {user.churnedAt && (
+                          <div className="text-red-400 text-xs mt-0.5">
+                            Churned {new Date(user.churnedAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
+                          </div>
+                        )}
+                      </td>
+                      <td className="px-5 py-4 font-semibold text-[#0f1e3c] whitespace-nowrap">
+                        {user.monthlyRevenue > 0 ? `$${user.monthlyRevenue.toLocaleString()}` : <span className="text-slate-300">—</span>}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+            {filtered.length === 0 && (
+              <div className="text-center py-10 text-slate-400 text-sm">No users in this category.</div>
+            )}
+          </div>
+        </div>
+
+        <p className="text-xs text-slate-400 text-center pb-4">
+          Data shown is mock — wire to Stripe + Clerk API for live data. Contact: founderai@pm.me
+        </p>
+      </div>
+    </div>
+  );
+}

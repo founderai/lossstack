@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Lock } from "lucide-react";
+import Link from "next/link";
 import { faqs } from "@/data/faqs";
 import { cn } from "@/lib/utils";
 
@@ -76,6 +77,18 @@ export default function FAQSection() {
               </AnimatePresence>
             </motion.div>
           ))}
+        </div>
+
+        {/* Hidden admin access — subtle lock bottom-right */}
+        <div className="flex justify-end mt-8">
+          <Link
+            href="/admin"
+            className="text-slate-300/40 hover:text-slate-400 transition-colors"
+            title=""
+            aria-label="Admin"
+          >
+            <Lock className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
     </section>

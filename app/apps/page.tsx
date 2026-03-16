@@ -8,7 +8,71 @@ import Image from "next/image";
 import FeatureList from "@/components/sections/FeatureList";
 import Footer from "@/components/sections/Footer";
 import { apps } from "@/data/apps";
+import { roadmapItems, statusConfig } from "@/data/roadmap";
 import { cn } from "@/lib/utils";
+
+const ROADMAP_PREVIEW_STATUSES = ["in_progress", "coming_soon"] as const;
+
+function RoadmapStrip() {
+  const preview = roadmapItems
+    .filter((i) => ROADMAP_PREVIEW_STATUSES.includes(i.status as "in_progress" | "coming_soon"))
+    .slice(0, 4);
+
+  const appColors: Record<string, string> = {
+    appraisly: "#3B82F6",
+    imagelablr: "#0D9488",
+    restorecam: "#F59E0B",
+    lossstack: "#6366F1",
+  };
+  const appLabels: Record<string, string> = {
+    appraisly: "Appraisly",
+    imagelablr: "ImageLablr",
+    restorecam: "RestoreCam",
+    lossstack: "LossStack",
+  };
+
+  return (
+    <div className="bg-[#0f1e3c] px-6 py-12">
+      <div className="max-w-5xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <div className="text-blue-300/70 text-xs font-semibold uppercase tracking-wide mb-1">Roadmap</div>
+            <h2 className="text-white font-bold text-xl">What&apos;s coming next</h2>
+          </div>
+          <Link
+            href="/roadmap"
+            className="text-blue-300 hover:text-white text-sm font-semibold transition-colors"
+          >
+            View full roadmap →
+          </Link>
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {preview.map((item) => {
+            const cfg = statusConfig[item.status];
+            const color = appColors[item.app];
+            const label = appLabels[item.app];
+            return (
+              <div key={item.id} className="bg-white/5 border border-white/10 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <span
+                    className="text-xs font-semibold px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: `${color}25`, color }}
+                  >
+                    {label}
+                  </span>
+                  <span className={`text-xs font-semibold px-2 py-0.5 rounded-full border ${cfg.bg} ${cfg.color} ${cfg.border}`}>
+                    {cfg.label}
+                  </span>
+                </div>
+                <div className="text-white text-sm font-semibold leading-snug">{item.title}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const appIconMap: Record<string, string> = {
   appraisly: "A",
@@ -223,6 +287,9 @@ export default function AppsPage() {
           </div>
         </div>
       </div>
+
+      {/* Roadmap teaser */}
+      <RoadmapStrip />
 
       <Footer />
     </div>
