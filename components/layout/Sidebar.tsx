@@ -204,7 +204,7 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
       {!collapsed && (
         <div className="px-4 py-4 border-t border-white/10">
           <Link
-            href="/#contact"
+            href="/contact"
             className="flex items-center justify-center gap-2 w-full bg-linear-to-r from-blue-500 to-teal-500 hover:from-blue-400 hover:to-teal-400 text-white text-sm font-semibold py-2.5 rounded-lg transition-all duration-150"
             onClick={onMobileClose}
           >

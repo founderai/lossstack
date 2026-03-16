@@ -32,7 +32,7 @@ export default function CTASection() {
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link
-              href="/#contact"
+              href="/contact"
               className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/15 transition-colors text-sm"
             >
               Request a Demo
