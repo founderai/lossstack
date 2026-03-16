@@ -85,29 +85,29 @@ export const apps: App[] = [
     name: "ImageLablr",
     tagline: "Intelligent photo labeling for claims documentation.",
     description:
-      "ImageLablr uses AI to automatically categorize, label, and organize large sets of claims photos — eliminating manual sorting and ensuring consistent, export-ready photo documentation every time.",
+      "ImageLablr gives adjusters and field teams a faster, smarter way to label and organize large sets of claims photos — ensuring consistent, export-ready photo documentation every time.",
     idealUser: "Adjusters, appraisers, restoration companies, and field inspectors managing high photo volumes.",
     useCases: [
-      "Batch label hundreds of claim photos automatically",
+      "Batch label hundreds of claim photos quickly and consistently",
       "Organize photos by room, elevation, or damage category",
       "Export photo sets in structured formats for reports",
       "Reduce admin time spent sorting and naming photos",
     ],
     features: [
       {
-        title: "AI Photo Labeling",
+        title: "Smart Photo Labeling",
         description:
-          "Automatically identify and label photo contents — damage type, location, severity — using computer vision trained on claims documentation.",
+          "Quickly label photo contents — damage type, location, severity — with a streamlined workflow built for claims documentation.",
       },
       {
         title: "Batch Photo Processing",
         description:
-          "Upload and process hundreds of photos at once with intelligent categorization applied at scale.",
+          "Upload and process hundreds of photos at once with a structured categorization workflow built for speed.",
       },
       {
         title: "Room / Elevation / Category Tagging",
         description:
-          "Smart tagging by room type, elevation (front, rear, left, right), and damage category for precise organization.",
+          "Tag by room type, elevation (front, rear, left, right), and damage category for precise, consistent organization.",
       },
       {
         title: "Export-Ready Organization",
@@ -117,7 +117,7 @@ export const apps: App[] = [
       {
         title: "Fast Claims Photo Documentation",
         description:
-          "Cut hours off photo review by letting AI pre-sort and label everything before human review.",
+          "Cut hours off photo review with a faster, more structured labeling workflow that keeps your team consistent.",
       },
       {
         title: "Consistent Labeling at Scale",
@@ -132,7 +132,7 @@ export const apps: App[] = [
       {
         title: "Better Photo Search & Organization",
         description:
-          "Find any photo instantly with intelligent search across labels, tags, rooms, and damage types.",
+          "Find any photo instantly by searching across labels, tags, rooms, and damage types.",
       },
     ],
     accentColor: "#0D9488",
