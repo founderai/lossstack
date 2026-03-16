@@ -33,7 +33,7 @@ const products = [
     url: "https://www.imagelablr.com",
     icon: Image,
     benefits: [
-      { icon: Zap, text: "AI labels hundreds of claim photos automatically" },
+      { icon: Zap, text: "Label hundreds of claim photos quickly and consistently" },
       { icon: Shield, text: "Organized by room, elevation, and damage category" },
       { icon: Clock, text: "Export-ready photo packages for reports in one click" },
     ],
@@ -135,7 +135,7 @@ function ImageLablrMock({ color }: { color: string }) {
         </div>
         <div className="mt-2 flex items-center justify-between px-1">
           <span className="text-slate-400 text-[10px]">6 of 48 labeled</span>
-          <span className="text-[10px] font-semibold" style={{ color }}>AI processing…</span>
+          <span className="text-[10px] font-semibold" style={{ color }}>Labeled</span>
         </div>
       </div>
     </div>

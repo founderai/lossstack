@@ -20,7 +20,7 @@ const steps = [
     icon: ImageIcon,
     label: "ImageLablr",
     role: "Photo Intelligence",
-    description: "AI automatically labels, categorizes, and organizes hundreds of claim photos into export-ready packages.",
+    description: "Label, categorize, and organize hundreds of claim photos into export-ready packages — faster and more consistently than manual workflows.",
     color: "#0D9488",
     bg: "#CCFBF1",
   },
