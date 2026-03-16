@@ -1,11 +1,19 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { Lock, Users, TrendingUp, DollarSign, LogOut, AlertCircle, CheckCircle, Clock, XCircle } from "lucide-react";
+import { Lock, Users, TrendingUp, DollarSign, LogOut, AlertCircle, CheckCircle, Clock, XCircle, Sparkles, Plus, Trash2, MapPin } from "lucide-react";
 import { mockUsers, type AdminUser, type UserStatus } from "@/data/adminUsers";
+import { roadmapItems as initialRoadmap, type RoadmapItem } from "@/data/roadmap";
 import { cn } from "@/lib/utils";
 
 const ADMIN_PASSWORD = "lossstack2026";
+
+const APP_OPTIONS: { value: RoadmapItem["app"]; label: string; color: string }[] = [
+  { value: "appraisly",  label: "Appraisly",  color: "#3B82F6" },
+  { value: "imagelablr", label: "ImageLablr", color: "#0D9488" },
+  { value: "restorecam", label: "RestoreCam", color: "#F59E0B" },
+  { value: "lossstack",  label: "All Apps",   color: "#6366F1" },
+];
 
 function durationLabel(joinedAt: string, churnedAt?: string): string {
   const start = new Date(joinedAt);
@@ -38,6 +46,31 @@ export default function AdminPage() {
   const [pw, setPw] = useState("");
   const [pwError, setPwError] = useState(false);
   const [filter, setFilter] = useState<UserStatus | "all">("all");
+  const [roadmap, setRoadmap] = useState<RoadmapItem[]>(initialRoadmap);
+  const [newTitle, setNewTitle] = useState("");
+  const [newDesc, setNewDesc] = useState("");
+  const [newApp, setNewApp] = useState<RoadmapItem["app"]>("lossstack");
+  const [addError, setAddError] = useState("");
+
+  const addRoadmapItem = () => {
+    if (!newTitle.trim()) { setAddError("Title is required."); return; }
+    const item: RoadmapItem = {
+      id: `r-${Date.now()}`,
+      app: newApp,
+      title: newTitle.trim(),
+      description: newDesc.trim(),
+      status: "coming_soon",
+    };
+    setRoadmap((prev) => [...prev, item]);
+    setNewTitle("");
+    setNewDesc("");
+    setNewApp("lossstack");
+    setAddError("");
+  };
+
+  const removeRoadmapItem = (id: string) => {
+    setRoadmap((prev) => prev.filter((i) => i.id !== id));
+  };
 
   const handleLogin = () => {
     if (pw === ADMIN_PASSWORD) {
@@ -241,8 +274,86 @@ export default function AdminPage() {
           </div>
         </div>
 
+        {/* Roadmap Editor */}
+        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+          <div className="flex items-center gap-2 px-6 py-4 border-b border-slate-100">
+            <MapPin className="w-4 h-4 text-slate-400" />
+            <h2 className="font-bold text-[#0f1e3c] text-base">Roadmap Editor</h2>
+            <span className="ml-auto text-xs text-slate-400">Changes are session-only — edit <code className="bg-slate-100 px-1 rounded">data/roadmap.ts</code> to persist</span>
+          </div>
+
+          {/* Current items */}
+          <div className="divide-y divide-slate-50">
+            {roadmap.length === 0 && (
+              <div className="px-6 py-8 text-center text-slate-400 text-sm">No roadmap items. Add one below.</div>
+            )}
+            {roadmap.map((item) => {
+              const appCfg = APP_OPTIONS.find((a) => a.value === item.app);
+              return (
+                <div key={item.id} className="flex items-start gap-4 px-6 py-4">
+                  <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${appCfg?.color}15` }}>
+                    <Sparkles className="w-3.5 h-3.5" style={{ color: appCfg?.color }} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap mb-0.5">
+                      <span className="font-semibold text-[#0f1e3c] text-sm">{item.title}</span>
+                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: `${appCfg?.color}15`, color: appCfg?.color }}>
+                        {appCfg?.label}
+                      </span>
+                    </div>
+                    {item.description && <p className="text-slate-400 text-xs">{item.description}</p>}
+                  </div>
+                  <button
+                    onClick={() => removeRoadmapItem(item.id)}
+                    className="shrink-0 text-slate-300 hover:text-red-400 transition-colors mt-0.5"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Add new item */}
+          <div className="bg-slate-50 border-t border-slate-100 px-6 py-5 space-y-3">
+            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">Add Item</div>
+            <div className="flex gap-3 flex-wrap">
+              <input
+                type="text"
+                placeholder="Feature title"
+                value={newTitle}
+                onChange={(e) => { setNewTitle(e.target.value); setAddError(""); }}
+                className="flex-1 min-w-48 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0f1e3c] bg-white"
+              />
+              <select
+                value={newApp}
+                onChange={(e) => setNewApp(e.target.value as RoadmapItem["app"])}
+                className="border border-slate-200 rounded-xl px-3 py-2.5 text-sm outline-none focus:border-[#0f1e3c] bg-white"
+              >
+                {APP_OPTIONS.map((a) => (
+                  <option key={a.value} value={a.value}>{a.label}</option>
+                ))}
+              </select>
+            </div>
+            <textarea
+              placeholder="Description (optional)"
+              value={newDesc}
+              onChange={(e) => setNewDesc(e.target.value)}
+              rows={2}
+              className="w-full border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0f1e3c] bg-white resize-none"
+            />
+            {addError && <p className="text-red-500 text-xs">{addError}</p>}
+            <button
+              onClick={addRoadmapItem}
+              className="flex items-center gap-2 bg-[#0f1e3c] hover:bg-[#1a3060] text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+            >
+              <Plus className="w-4 h-4" /> Add to Roadmap
+            </button>
+          </div>
+        </div>
+
         <p className="text-xs text-slate-400 text-center pb-4">
-          Data shown is mock — wire to Stripe + Clerk API for live data. Contact: founderai@pm.me
+          User data is mock — wire to Stripe + Clerk API for live data. Contact: founderai@pm.me
         </p>
       </div>
     </div>
