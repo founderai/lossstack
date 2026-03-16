@@ -144,17 +144,27 @@ export const apps: App[] = [
   {
     id: "restorecam",
     name: "RestoreCam",
-    tagline: "Field-first documentation for restoration professionals.",
+    tagline: "AI-powered field documentation for restoration professionals.",
     description:
-      "RestoreCam gives restoration technicians and project managers a structured, mobile-first tool to capture, organize, and report on jobsite conditions — from initial moisture readings to final completion photos.",
+      "RestoreCam gives restoration technicians and project managers a structured, mobile-first tool to capture, organize, and report on jobsite conditions — with AI-assisted pricing lookups and photo labeling that keep your team ahead of competitors still working off spreadsheets.",
     idealUser: "Water mitigation techs, restoration PMs, contents specialists, and field crews on active jobs.",
     useCases: [
+      "AI-assisted pricing lookups for accurate, fast line-item estimates",
+      "AI photo labeling — auto-tag jobsite photos by room, phase, and damage type",
       "Document moisture readings and drying progress by room",
-      "Capture and organize jobsite photos with job context",
-      "Track equipment placement and readings over time",
       "Generate progress and completion reports for carriers",
     ],
     features: [
+      {
+        title: "AI Photo Labeling",
+        description:
+          "AI automatically tags jobsite photos by room, job phase, and damage type — cutting the time your techs spend organizing documentation in the field.",
+      },
+      {
+        title: "AI-Assisted Pricing",
+        description:
+          "Pull accurate restoration pricing on the fly with AI-powered lookups — so your estimates stay competitive and defensible without manual rate research.",
+      },
       {
         title: "Restoration Photo Documentation",
         description:
