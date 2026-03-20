@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { Lock, Users, TrendingUp, DollarSign, LogOut, AlertCircle, CheckCircle, Clock, XCircle, Sparkles, Plus, Trash2, MapPin } from "lucide-react";
+import { Lock, Users, TrendingUp, DollarSign, LogOut, AlertCircle, CheckCircle, Clock, XCircle, Sparkles, Plus, Trash2, MapPin, Gift, ShieldAlert, ThumbsUp, ThumbsDown, Flag, CreditCard } from "lucide-react";
 import type { AdminUser, UserStatus } from "@/data/adminUsers";
 import { roadmapItems as initialRoadmap, type RoadmapItem } from "@/data/roadmap";
 import { cn } from "@/lib/utils";
+import type { CreditRequest, CreditGrant } from "@/app/api/credits/route";
 
 const ADMIN_PASSWORD = "I$aacFou0der2026!";
 
@@ -57,12 +58,40 @@ export default function AdminPage() {
   const [addError, setAddError] = useState("");
   const [saving, setSaving] = useState(false);
 
+  // Credits state
+  const [creditRequests, setCreditRequests] = useState<CreditRequest[]>([]);
+  const [creditGrants, setCreditGrants] = useState<CreditGrant[]>([]);
+  const [creditsLoading, setCreditsLoading] = useState(false);
+  const [creditFilter, setCreditFilter] = useState<CreditRequest["status"] | "all">("all");
+  const [resolvingId, setResolvingId] = useState<string | null>(null);
+  const [resolveNote, setResolveNote] = useState("");
+  // Manual grant state
+  const [grantEmail, setGrantEmail] = useState("");
+  const [grantCredits, setGrantCredits] = useState(2);
+  const [grantReason, setGrantReason] = useState("");
+  const [grantSaving, setGrantSaving] = useState(false);
+  const [grantMsg, setGrantMsg] = useState("");
+  const [grantError, setGrantError] = useState("");
+
   useEffect(() => {
     fetch("/api/roadmap")
       .then((r) => r.json())
       .then(setRoadmap)
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!authed) return;
+    setCreditsLoading(true);
+    fetch("/api/credits")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.requests) setCreditRequests(data.requests);
+        if (data.grants) setCreditGrants(data.grants);
+      })
+      .catch(() => {})
+      .finally(() => setCreditsLoading(false));
+  }, [authed]);
 
   useEffect(() => {
     if (!authed) return;
@@ -122,6 +151,50 @@ export default function AdminPage() {
       setPwError(true);
     }
   };
+
+  const resolveRequest = async (id: string, status: CreditRequest["status"], credits: number) => {
+    setResolvingId(id);
+    try {
+      const res = await fetch("/api/credits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "resolve", id, status, creditsGranted: credits, adminNote: resolveNote }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCreditRequests((prev) => prev.map((r) => r.id === id ? data.request : r));
+        setResolveNote("");
+      }
+    } catch {}
+    finally { setResolvingId(null); }
+  };
+
+  const handleManualGrant = async () => {
+    if (!grantEmail.trim() || grantCredits < 1) { setGrantError("Email and credit amount required."); return; }
+    setGrantSaving(true);
+    setGrantError("");
+    setGrantMsg("");
+    try {
+      const res = await fetch("/api/credits", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "grant", email: grantEmail, credits: grantCredits, reason: grantReason }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setCreditGrants((prev) => [data.grant, ...prev]);
+        setGrantMsg(`✓ Granted ${grantCredits} credit${grantCredits !== 1 ? "s" : ""} to ${grantEmail}`);
+        setGrantEmail(""); setGrantCredits(2); setGrantReason("");
+      } else {
+        setGrantError(data.error ?? "Failed to grant.");
+      }
+    } catch { setGrantError("Network error."); }
+    finally { setGrantSaving(false); }
+  };
+
+  const filteredRequests = creditFilter === "all"
+    ? creditRequests
+    : creditRequests.filter((r) => r.status === creditFilter);
 
   const filtered = useMemo(() =>
     filter === "all" ? users : users.filter((u) => u.status === filter),
@@ -415,6 +488,183 @@ export default function AdminPage() {
               <Plus className="w-4 h-4" /> {saving ? "Saving…" : "Add to Roadmap"}
             </button>
           </div>
+        </div>
+
+        {/* ── Credit Requests ─────────────────────────────────────────── */}
+        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+            <div className="flex items-center gap-2">
+              <ShieldAlert className="w-4 h-4 text-slate-400" />
+              <h2 className="font-bold text-[#0f1e3c] text-base">Courtesy Credit Requests</h2>
+              {creditRequests.filter((r) => r.status === "pending").length > 0 && (
+                <span className="bg-amber-100 text-amber-700 text-xs font-bold px-2 py-0.5 rounded-full">
+                  {creditRequests.filter((r) => r.status === "pending").length} pending
+                </span>
+              )}
+              {creditRequests.filter((r) => r.status === "flagged").length > 0 && (
+                <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-0.5 rounded-full">
+                  {creditRequests.filter((r) => r.status === "flagged").length} flagged
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2">
+              {(["all", "pending", "flagged", "approved", "denied"] as const).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setCreditFilter(f)}
+                  className={cn(
+                    "text-xs font-semibold px-2.5 py-1 rounded-lg capitalize transition-colors",
+                    creditFilter === f ? "bg-[#0f1e3c] text-white" : "bg-slate-100 text-slate-500 hover:bg-slate-200"
+                  )}
+                >
+                  {f}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {creditsLoading && (
+            <div className="text-center py-6 text-slate-400 text-sm">Loading requests…</div>
+          )}
+
+          <div className="divide-y divide-slate-50">
+            {!creditsLoading && filteredRequests.length === 0 && (
+              <div className="text-center py-10 text-slate-400 text-sm">No requests in this category.</div>
+            )}
+            {filteredRequests.map((req) => {
+              const statusStyles: Record<CreditRequest["status"], { bg: string; text: string; label: string }> = {
+                pending:  { bg: "bg-amber-50",  text: "text-amber-700",  label: "Pending" },
+                approved: { bg: "bg-teal-50",   text: "text-teal-700",   label: "Approved" },
+                denied:   { bg: "bg-slate-100", text: "text-slate-500",  label: "Denied" },
+                flagged:  { bg: "bg-red-50",    text: "text-red-600",    label: "⚑ Flagged" },
+              };
+              const s = statusStyles[req.status];
+              const isAbuse = req.requestCount > 5;
+              return (
+                <div key={req.id} className={cn("px-6 py-4", req.status === "flagged" ? "bg-red-50/40" : "")}>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 flex-wrap mb-1">
+                        <span className="font-semibold text-[#0f1e3c] text-sm">{req.email}</span>
+                        <span className={cn("text-xs font-bold px-2 py-0.5 rounded-full", s.bg, s.text)}>{s.label}</span>
+                        {isAbuse && (
+                          <span className="text-xs font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-600">
+                            ⚠ {req.requestCount} lifetime requests
+                          </span>
+                        )}
+                        {req.creditsGranted > 0 && (
+                          <span className="text-xs font-semibold text-teal-600">+{req.creditsGranted} credits issued</span>
+                        )}
+                      </div>
+                      <p className="text-slate-500 text-xs mb-1 leading-relaxed">{req.description}</p>
+                      <div className="text-slate-400 text-xs">
+                        {new Date(req.requestedAt).toLocaleString("en-US", { month: "short", day: "numeric", year: "numeric", hour: "numeric", minute: "2-digit" })}
+                        {req.adminNote && <span className="ml-2 italic text-slate-400">· {req.adminNote}</span>}
+                      </div>
+                    </div>
+
+                    {req.status === "pending" || req.status === "flagged" ? (
+                      <div className="flex flex-col gap-2 shrink-0">
+                        <div className="flex gap-1.5">
+                          <button
+                            onClick={() => resolveRequest(req.id, "approved", 2)}
+                            disabled={resolvingId === req.id}
+                            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-teal-50 text-teal-700 hover:bg-teal-100 transition-colors disabled:opacity-50"
+                          >
+                            <ThumbsUp className="w-3 h-3" /> Approve (+2)
+                          </button>
+                          <button
+                            onClick={() => resolveRequest(req.id, "denied", 0)}
+                            disabled={resolvingId === req.id}
+                            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors disabled:opacity-50"
+                          >
+                            <ThumbsDown className="w-3 h-3" /> Deny
+                          </button>
+                          <button
+                            onClick={() => resolveRequest(req.id, "flagged", 0)}
+                            disabled={resolvingId === req.id}
+                            className="flex items-center gap-1 text-xs font-semibold px-3 py-1.5 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition-colors disabled:opacity-50"
+                          >
+                            <Flag className="w-3 h-3" /> Flag
+                          </button>
+                        </div>
+                      </div>
+                    ) : null}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Manual Credit Grant ──────────────────────────────────────────── */}
+        <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+          <div className="flex items-center gap-2 px-6 py-4 border-b border-slate-100">
+            <Gift className="w-4 h-4 text-slate-400" />
+            <h2 className="font-bold text-[#0f1e3c] text-base">Manual Credit Grant</h2>
+          </div>
+
+          <div className="px-6 py-5 space-y-4">
+            <p className="text-slate-400 text-xs leading-relaxed">
+              Manually issue credits to any account email. This is logged and visible in the grant history below.
+            </p>
+            <div className="flex gap-3 flex-wrap">
+              <input
+                type="email"
+                placeholder="Account email"
+                value={grantEmail}
+                onChange={(e) => { setGrantEmail(e.target.value); setGrantError(""); setGrantMsg(""); }}
+                className="flex-1 min-w-52 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0f1e3c]"
+              />
+              <input
+                type="number"
+                min={1}
+                max={100}
+                value={grantCredits}
+                onChange={(e) => setGrantCredits(Number(e.target.value))}
+                className="w-24 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0f1e3c] text-center"
+              />
+              <input
+                type="text"
+                placeholder="Reason (optional)"
+                value={grantReason}
+                onChange={(e) => setGrantReason(e.target.value)}
+                className="flex-1 min-w-52 border border-slate-200 rounded-xl px-4 py-2.5 text-sm outline-none focus:border-[#0f1e3c]"
+              />
+            </div>
+            {grantError && <p className="text-red-500 text-xs flex items-center gap-1"><AlertCircle className="w-3.5 h-3.5" />{grantError}</p>}
+            {grantMsg  && <p className="text-teal-600 text-xs font-semibold">{grantMsg}</p>}
+            <button
+              onClick={handleManualGrant}
+              disabled={grantSaving}
+              className="flex items-center gap-2 bg-[#0f1e3c] hover:bg-[#1a3060] disabled:opacity-50 text-white font-semibold px-5 py-2.5 rounded-xl text-sm transition-colors"
+            >
+              <CreditCard className="w-4 h-4" />{grantSaving ? "Granting…" : "Grant Credits"}
+            </button>
+          </div>
+
+          {/* Grant history */}
+          {creditGrants.length > 0 && (
+            <div className="border-t border-slate-100">
+              <div className="px-6 py-3 bg-slate-50 text-xs font-semibold text-slate-400 uppercase tracking-wide">Grant History</div>
+              <div className="divide-y divide-slate-50 max-h-64 overflow-y-auto">
+                {creditGrants.map((g) => (
+                  <div key={g.id} className="px-6 py-3 flex items-center justify-between gap-4">
+                    <div className="min-w-0">
+                      <div className="font-semibold text-[#0f1e3c] text-sm">{g.email}</div>
+                      <div className="text-slate-400 text-xs">{g.reason}</div>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <div className="font-bold text-teal-600 text-sm">+{g.credits} credits</div>
+                      <div className="text-slate-400 text-xs">
+                        {new Date(g.grantedAt).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         <p className="text-xs text-slate-400 text-center pb-4">
