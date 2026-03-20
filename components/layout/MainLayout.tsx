@@ -4,6 +4,7 @@ import { useState } from "react";
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
 import EarlyAccessBanner from "./EarlyAccessBanner";
+import MaintenanceModal from "./MaintenanceModal";
 import { cn } from "@/lib/utils";
 
 interface MainLayoutProps {
@@ -17,6 +18,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 
   return (
     <div className="min-h-screen bg-[#f5f0e8]">
+      <MaintenanceModal />
       {/* Fixed banner + topbar stack */}
       <div className="fixed top-0 left-0 right-0 z-30">
         {bannerVisible && (
