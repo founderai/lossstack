@@ -90,18 +90,13 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className={cn(
-        "flex items-center px-4 py-5 border-b border-white/10",
-        collapsed ? "justify-center" : "justify-between"
+        "flex items-center justify-center px-4 py-5 border-b border-slate-200",
       )}>
         {!collapsed && (
-          <div className="flex items-center bg-white rounded-xl px-3 py-1.5">
-            <img src="/LossStack Logo Side.png" alt="LossStack" className="h-9 w-auto object-contain" />
-          </div>
+          <img src="/LossStack Logo Side.png" alt="LossStack" className="h-11 w-auto object-contain" />
         )}
         {collapsed && (
-          <div className="bg-white rounded-lg p-1">
-            <img src="/Loss Stack Icon.png" alt="LossStack" className="w-8 h-8 object-contain" />
-          </div>
+          <img src="/Loss Stack Icon.png" alt="LossStack" className="w-9 h-9 object-contain" />
         )}
       </div>
 
@@ -123,19 +118,19 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
                       className={cn(
                         "w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150",
                         active
-                          ? "bg-white/15 text-white"
-                          : "text-blue-200 hover:bg-white/10 hover:text-white",
+                          ? "bg-[#0f1e3c] text-white"
+                          : "text-slate-600 hover:bg-slate-200 hover:text-[#0f1e3c]",
                         collapsed && "justify-center"
                       )}
                     >
-                      <Icon className="w-4 h-4 flex-shrink-0" />
+                      <Icon className="w-4 h-4 shrink-0" />
                       {!collapsed && (
                         <>
                           <span className="flex-1 text-left">{item.label}</span>
                           {isExpanded ? (
-                            <ChevronUp className="w-3.5 h-3.5 text-blue-300" />
+                            <ChevronUp className="w-3.5 h-3.5 text-slate-400" />
                           ) : (
-                            <ChevronDown className="w-3.5 h-3.5 text-blue-300" />
+                            <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
                           )}
                         </>
                       )}
@@ -146,13 +141,13 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
                       className={cn(
                         "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150",
                         active
-                          ? "bg-white/15 text-white"
-                          : "text-blue-200 hover:bg-white/10 hover:text-white",
+                          ? "bg-[#0f1e3c] text-white"
+                          : "text-slate-600 hover:bg-slate-200 hover:text-[#0f1e3c]",
                         collapsed && "justify-center"
                       )}
                       onClick={onMobileClose}
                     >
-                      <Icon className="w-4 h-4 flex-shrink-0" />
+                      <Icon className="w-4 h-4 shrink-0" />
                       {!collapsed && <span>{item.label}</span>}
                     </Link>
                   )}
@@ -174,10 +169,10 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
                               <li key={child.id}>
                                 <Link
                                   href={child.href}
-                                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-blue-300 hover:bg-white/10 hover:text-white transition-all duration-150 border-l border-white/10 ml-1"
+                                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-slate-500 hover:bg-slate-200 hover:text-[#0f1e3c] transition-all duration-150 border-l border-slate-300 ml-1"
                                   onClick={onMobileClose}
                                 >
-                                  <ChildIcon className="w-3.5 h-3.5 flex-shrink-0" />
+                                  <ChildIcon className="w-3.5 h-3.5 shrink-0" />
                                   <span>{child.label}</span>
                                 </Link>
                               </li>
@@ -196,7 +191,7 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
 
       {/* Bottom section */}
       {!collapsed && (
-        <div className="px-4 py-4 border-t border-white/10">
+        <div className="px-4 py-4 border-t border-slate-200">
           <Link
             href="/contact"
             className="flex items-center justify-center gap-2 w-full bg-linear-to-r from-blue-500 to-teal-500 hover:from-blue-400 hover:to-teal-400 text-white text-sm font-semibold py-2.5 rounded-lg transition-all duration-150"
@@ -204,7 +199,7 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
           >
             <span>Request a Demo</span>
           </Link>
-          <p className="text-blue-400/60 text-xs text-center mt-3">
+          <p className="text-slate-400 text-xs text-center mt-3">
             © 2025 LossStack
           </p>
         </div>
@@ -219,7 +214,7 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
         initial={false}
         animate={{ width: collapsed ? 64 : 240 }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
-        className="hidden lg:flex flex-col fixed left-0 top-0 h-screen bg-[#0f1e3c] z-30 border-r border-white/5 overflow-hidden"
+        className="hidden lg:flex flex-col fixed left-0 top-0 h-screen bg-[#f5f0e8] z-30 border-r border-slate-200 overflow-hidden"
       >
         <SidebarContent />
 
@@ -241,11 +236,11 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
               animate={{ x: 0 }}
               exit={{ x: -280 }}
               transition={{ duration: 0.25, ease: "easeInOut" }}
-              className="fixed left-0 top-0 h-screen w-[240px] bg-[#0f1e3c] z-50 lg:hidden border-r border-white/5"
+              className="fixed left-0 top-0 h-screen w-60 bg-[#f5f0e8] z-50 lg:hidden border-r border-slate-200"
             >
               <button
                 onClick={onMobileClose}
-                className="absolute top-4 right-4 text-blue-200 hover:text-white"
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-700"
               >
                 <X className="w-5 h-5" />
               </button>
