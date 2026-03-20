@@ -30,7 +30,9 @@ export default function HeroSection() {
       <div className="absolute -top-20 -right-20 w-100 h-100 rounded-full bg-blue-600/20 blur-[100px] pointer-events-none" />
       <div className="absolute -bottom-15 left-1/5 w-75 h-75 rounded-full bg-teal-500/15 blur-[80px] pointer-events-none" />
 
-      <div className="relative max-w-4xl mx-auto">
+      <div className="relative max-w-6xl mx-auto">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:gap-16">
+        <div className="flex-1">
         {/* Badge */}
         <motion.div
           custom={0}
@@ -96,14 +98,14 @@ export default function HeroSection() {
             className="flex items-center gap-2 bg-white/10 border border-white/20 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/15 transition-all duration-150 text-sm"
           >
             <BarChart2 className="w-4 h-4" />
-            Compare Plans
+            Compare Apps
           </Link>
           <Link
             href="/pricing"
             className="flex items-center gap-2 bg-linear-to-r from-teal-500 to-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:from-teal-400 hover:to-blue-500 transition-all duration-150 shadow-sm text-sm"
           >
             <Layers className="w-4 h-4" />
-            Build Your Stack
+            View Pricing
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </motion.div>
@@ -127,6 +129,26 @@ export default function HeroSection() {
             </div>
           ))}
         </motion.div>
+        </div>{/* end left col */}
+
+        {/* Right col — large icon */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
+          className="hidden lg:flex items-center justify-center shrink-0"
+        >
+          <div className="relative">
+            <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-[60px] scale-125" />
+            <img
+              src="/Loss Stack Icon.png"
+              alt="LossStack"
+              className="relative w-64 h-64 object-contain drop-shadow-2xl"
+            />
+          </div>
+        </motion.div>
+
+        </div>{/* end two-col grid */}
       </div>
     </section>
   );
