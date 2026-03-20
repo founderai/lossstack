@@ -63,7 +63,7 @@ export default function TermsPage() {
           </p>
           <ul className="text-slate-600 text-sm space-y-2 list-disc pl-5">
             <li>Subscription fees are billed in advance on a monthly cycle.</li>
-            <li>Plans are available at the Free, Core ($99/mo), Pro ($249/mo), Firm ($499/mo), and Enterprise tiers. Paid plans are billed monthly.</li>
+            <li>Plans are available at the Free, Core ($99/mo), Pro ($249/mo, 10 credits/mo), Firm ($499/mo, 25 credits/mo), and Enterprise tiers. Paid plans are billed monthly. Report credits are consumed before per-report charges apply.</li>
             <li>Prices are subject to change with 30 days written notice to your registered email.</li>
             <li>You are responsible for all applicable taxes.</li>
           </ul>
