@@ -57,6 +57,10 @@ export default function AdminPage() {
   const [newQuarter, setNewQuarter] = useState("");
   const [addError, setAddError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editApp, setEditApp] = useState<RoadmapItem["app"]>("lossstack");
+  const [editQuarter, setEditQuarter] = useState("");
+  const [editSaving, setEditSaving] = useState(false);
 
   // Credits state
   const [creditRequests, setCreditRequests] = useState<CreditRequest[]>([]);
@@ -132,6 +136,29 @@ export default function AdminPage() {
     } finally {
       setSaving(false);
     }
+  };
+
+  const startEdit = (item: RoadmapItem) => {
+    setEditingId(item.id);
+    setEditApp(item.app);
+    setEditQuarter(item.quarter ?? "");
+  };
+
+  const saveEdit = async (id: string) => {
+    setEditSaving(true);
+    try {
+      const res = await fetch("/api/roadmap", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, app: editApp, quarter: editQuarter }),
+      });
+      const updated = await res.json();
+      if (res.ok) {
+        setRoadmap((prev) => prev.map((i) => i.id === id ? updated : i));
+        setEditingId(null);
+      }
+    } catch {}
+    finally { setEditSaving(false); }
   };
 
   const removeRoadmapItem = async (id: string) => {
@@ -412,27 +439,84 @@ export default function AdminPage() {
             )}
             {roadmap.map((item) => {
               const appCfg = APP_OPTIONS.find((a) => a.value === item.app);
+              const isEditing = editingId === item.id;
               return (
-                <div key={item.id} className="flex items-start gap-4 px-6 py-4">
+                <div key={item.id} className={cn("flex items-start gap-4 px-6 py-4", isEditing ? "bg-slate-50" : "")}>
                   <div className="w-7 h-7 rounded-lg flex items-center justify-center shrink-0 mt-0.5" style={{ backgroundColor: `${appCfg?.color}15` }}>
                     <Sparkles className="w-3.5 h-3.5" style={{ color: appCfg?.color }} />
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 flex-wrap mb-0.5">
                       <span className="font-semibold text-[#0f1e3c] text-sm">{item.title}</span>
-                      <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: `${appCfg?.color}15`, color: appCfg?.color }}>
-                        {appCfg?.label}
-                      </span>
-                      {item.quarter && <span className="text-xs text-slate-400">{item.quarter}</span>}
+                      {!isEditing && (
+                        <>
+                          <span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{ backgroundColor: `${appCfg?.color}15`, color: appCfg?.color }}>
+                            {appCfg?.label}
+                          </span>
+                          {item.quarter && <span className="text-xs text-slate-400">{item.quarter}</span>}
+                        </>
+                      )}
                     </div>
-                    {item.description && <p className="text-slate-400 text-xs">{item.description}</p>}
+                    {item.description && !isEditing && <p className="text-slate-400 text-xs">{item.description}</p>}
+                    {isEditing && (
+                      <div className="flex items-center gap-2 mt-2 flex-wrap">
+                        <select
+                          value={editApp}
+                          onChange={(e) => setEditApp(e.target.value as RoadmapItem["app"])}
+                          className="border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:border-[#0f1e3c] bg-white"
+                        >
+                          {APP_OPTIONS.map((a) => (
+                            <option key={a.value} value={a.value}>{a.label}</option>
+                          ))}
+                        </select>
+                        <select
+                          value={editQuarter}
+                          onChange={(e) => setEditQuarter(e.target.value)}
+                          className="border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs outline-none focus:border-[#0f1e3c] bg-white"
+                        >
+                          <option value="">No quarter</option>
+                          <option value="Q1 2026">Q1 2026</option>
+                          <option value="Q2 2026">Q2 2026</option>
+                          <option value="Q3 2026">Q3 2026</option>
+                          <option value="Q4 2026">Q4 2026</option>
+                          <option value="Q1 2027">Q1 2027</option>
+                          <option value="Q2 2027">Q2 2027</option>
+                          <option value="Q3 2027">Q3 2027</option>
+                          <option value="Q4 2027">Q4 2027</option>
+                        </select>
+                        <button
+                          onClick={() => saveEdit(item.id)}
+                          disabled={editSaving}
+                          className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-[#0f1e3c] text-white hover:bg-[#1a3060] disabled:opacity-50 transition-colors"
+                        >
+                          {editSaving ? "Saving…" : "Save"}
+                        </button>
+                        <button
+                          onClick={() => setEditingId(null)}
+                          className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-200 transition-colors"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    )}
                   </div>
-                  <button
-                    onClick={() => removeRoadmapItem(item.id)}
-                    className="shrink-0 text-slate-300 hover:text-red-400 transition-colors mt-0.5"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="flex items-center gap-1 shrink-0 mt-0.5">
+                    {!isEditing && (
+                      <button
+                        onClick={() => startEdit(item)}
+                        className="text-slate-300 hover:text-blue-400 transition-colors p-1"
+                        title="Edit quarter / app"
+                      >
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M15.232 5.232l3.536 3.536M9 13l6.586-6.586a2 2 0 112.828 2.828L11.828 15.828A2 2 0 0110 16.414H8v-2a2 2 0 01.586-1.414z" /></svg>
+                      </button>
+                    )}
+                    <button
+                      onClick={() => removeRoadmapItem(item.id)}
+                      className="text-slate-300 hover:text-red-400 transition-colors p-1"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
               );
             })}

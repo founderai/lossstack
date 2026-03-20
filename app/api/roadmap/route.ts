@@ -36,6 +36,20 @@ export async function POST(req: Request) {
   return NextResponse.json(newItem, { status: 201 });
 }
 
+export async function PATCH(req: Request) {
+  const { id, app, quarter, title, description } = await req.json();
+  if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });
+  const items = readRoadmap();
+  const idx = items.findIndex((i: { id: string }) => i.id === id);
+  if (idx === -1) return NextResponse.json({ error: "Item not found." }, { status: 404 });
+  if (app !== undefined)         items[idx].app         = app;
+  if (quarter !== undefined)     items[idx].quarter     = quarter;
+  if (title !== undefined)       items[idx].title       = title.trim();
+  if (description !== undefined) items[idx].description = description.trim();
+  writeFileSync(ROADMAP_FILE, JSON.stringify(items, null, 2));
+  return NextResponse.json(items[idx]);
+}
+
 export async function DELETE(req: Request) {
   const { id } = await req.json();
   if (!id) return NextResponse.json({ error: "id required" }, { status: 400 });

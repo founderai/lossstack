@@ -14,5 +14,29 @@
     "description": "All three apps available on the App Store and Google Play.",
     "status": "coming_soon",
     "quarter": ""
+  },
+  {
+    "id": "r-003",
+    "app": "lossstack",
+    "title": "Advanced Field Data & Weather Integration",
+    "description": "New platform capability coming soon.",
+    "status": "coming_soon",
+    "quarter": "Q3 2026"
+  },
+  {
+    "id": "r-004",
+    "app": "lossstack",
+    "title": "Built-In CRM & Contact Management",
+    "description": "New platform capability coming soon.",
+    "status": "coming_soon",
+    "quarter": "Q3 2026"
+  },
+  {
+    "id": "r-005",
+    "app": "lossstack",
+    "title": "Job Scheduling & Calendar Tools",
+    "description": "New platform capability coming soon.",
+    "status": "coming_soon",
+    "quarter": "Q4 2026"
   }
 ]
