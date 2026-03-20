@@ -138,6 +138,8 @@ export default function AppsPage() {
                 >
                   {app.id === "appraisly" ? (
                     <Image src="/Appraisly Icon.png" alt="Appraisly" width={20} height={20} className="w-5 h-5 object-cover rounded" />
+                  ) : app.id === "restorecam" ? (
+                    <Image src="/Restore Cam Icon.png" alt="RestoreCam" width={20} height={20} className="w-5 h-5 object-contain" />
                   ) : (
                     appIconMap[app.id]
                   )}
@@ -165,7 +167,7 @@ export default function AppsPage() {
             <div className="flex flex-col lg:flex-row lg:items-start gap-6">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  {currentApp.id !== "appraisly" && (
+                  {currentApp.id !== "appraisly" && currentApp.id !== "restorecam" && (
                     <div
                       className="w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-base"
                       style={{
@@ -179,6 +181,8 @@ export default function AppsPage() {
                   <div>
                     {currentApp.id === "appraisly" ? (
                       <Image src="/Appraisly Logo.png" alt="Appraisly" width={200} height={52} className="h-10 w-auto object-contain" />
+                    ) : currentApp.id === "restorecam" ? (
+                      <Image src="/RestoreCam Logo Side.png" alt="RestoreCam" width={220} height={52} className="h-10 w-auto object-contain" />
                     ) : (
                       <h2 className="text-2xl font-bold text-[#0f1e3c]">{currentApp.name}</h2>
                     )}
@@ -269,13 +273,17 @@ export default function AppsPage() {
                   className="flex items-center gap-4 p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-sm transition-all duration-150 text-left"
                 >
                   <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shrink-0"
+                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shrink-0 overflow-hidden"
                     style={{
                       backgroundColor: `${app.accentColor}18`,
                       color: app.accentColor,
                     }}
                   >
-                    {appIconMap[app.id]}
+                    {app.id === "restorecam" ? (
+                      <Image src="/Restore Cam Icon.png" alt="RestoreCam" width={40} height={40} className="w-full h-full object-contain" />
+                    ) : (
+                      appIconMap[app.id]
+                    )}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="font-semibold text-[#0f1e3c] text-sm">{app.name}</div>

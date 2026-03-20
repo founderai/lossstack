@@ -94,20 +94,12 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
         collapsed ? "justify-center" : "justify-between"
       )}>
         {!collapsed && (
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-400 to-teal-400 flex items-center justify-center flex-shrink-0">
-              <span className="text-white font-bold text-sm">LS</span>
-            </div>
-            <div>
-              <div className="text-white font-bold text-base leading-none">LossStack</div>
-              <div className="text-blue-300 text-xs mt-0.5">Suite Platform</div>
-            </div>
+          <div className="flex items-center">
+            <img src="/LossStack Logo Side.png" alt="LossStack" className="h-8 w-auto object-contain" />
           </div>
         )}
         {collapsed && (
-          <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-400 to-teal-400 flex items-center justify-center">
-            <span className="text-white font-bold text-sm">LS</span>
-          </div>
+          <img src="/Loss Stack Icon.png" alt="LossStack" className="w-8 h-8 object-contain" />
         )}
       </div>
 
