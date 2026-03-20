@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { Check, Minus } from "lucide-react";
 import { apps } from "@/data/apps";
-import { appPricingData, pricingConfig } from "@/data/pricing";
 import { cn } from "@/lib/utils";
 
 const capabilities = [
@@ -30,9 +29,6 @@ const appColors: Record<string, string> = {
 };
 
 export default function ComparisonTable() {
-  const twoAppDiscount = pricingConfig.twoAppDiscountPercent;
-  const threeAppDiscount = pricingConfig.threeAppDiscountPercent;
-
   return (
     <div className="overflow-x-auto">
       <motion.table
@@ -103,51 +99,8 @@ export default function ComparisonTable() {
           ))}
         </tbody>
 
-        {/* Pricing rows */}
         <tfoot>
-          <tr className="border-t-2 border-slate-200 bg-slate-50/50">
-            <td className="px-5 py-3 text-slate-700 font-semibold text-sm">Pricing</td>
-            {apps.map((app) => {
-              const appData = appPricingData.find((a) => a.appId === app.id)!;
-              const paidTiers = appData.tiers.filter((t) => typeof t.price === "number");
-              return (
-                <td key={app.id} className="px-4 py-3 text-center">
-                  <div className="space-y-0.5">
-                    {paidTiers.map((tier) => (
-                      <div key={tier.name} className="flex items-center justify-center gap-1.5 text-xs">
-                        <span className="text-slate-400 w-16 text-right">{tier.name}</span>
-                        <span className="font-bold text-[#0f1e3c]">${tier.price}/mo</span>
-                      </div>
-                    ))}
-                    <a
-                      href="mailto:founderai@pm.me?subject=Corporate Pricing Inquiry"
-                      className="text-blue-500 text-xs hover:underline block mt-0.5"
-                    >
-                      Corporate pricing →
-                    </a>
-                    {appData.annualDiscount && (
-                      <div className="text-teal-600 text-xs font-medium pt-0.5">{appData.annualDiscount}</div>
-                    )}
-                  </div>
-                </td>
-              );
-            })}
-          </tr>
-          <tr className="bg-[#0f1e3c]">
-            <td className="px-5 py-4 text-blue-200 font-semibold text-sm">
-              Bundle savings
-              <div className="text-blue-300/60 text-xs font-normal mt-0.5">
-                2-app: {twoAppDiscount}% off · 3-app: {threeAppDiscount}% off
-              </div>
-            </td>
-            {apps.map((app) => (
-              <td key={app.id} className="px-4 py-4 text-center">
-                <div className="text-teal-400 font-bold text-sm">Stackable</div>
-                <div className="text-blue-300/60 text-xs mt-0.5">Bundle eligible</div>
-              </td>
-            ))}
-          </tr>
-          <tr className="bg-white">
+          <tr className="border-t-2 border-slate-200 bg-white">
             <td className="px-5 py-3 text-slate-700 font-semibold text-sm">Best for</td>
             <td className="px-4 py-3 text-center text-slate-500 text-xs">Adjusters & Appraisers</td>
             <td className="px-4 py-3 text-center text-slate-500 text-xs">Claims Documentation Teams</td>
