@@ -14,6 +14,12 @@ export const navItems: NavItem[] = [
     icon: "Home",
   },
   {
+    id: "team",
+    label: "My Team",
+    href: "/team",
+    icon: "Users",
+  },
+  {
     id: "apps",
     label: "Apps",
     href: "/apps",

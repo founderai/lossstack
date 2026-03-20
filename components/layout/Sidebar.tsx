@@ -15,6 +15,7 @@ import {
   BarChart2,
   HelpCircle,
   Mail,
+  Users,
   ChevronLeft,
   ChevronRight,
   ChevronDown,
@@ -34,6 +35,7 @@ const iconMap: Record<string, React.ElementType> = {
   BarChart2,
   HelpCircle,
   Mail,
+  Users,
 };
 
 interface NavItem {

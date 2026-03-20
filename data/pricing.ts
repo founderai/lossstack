@@ -27,6 +27,8 @@ export interface UnifiedPlan {
   popular?: boolean;
   description: string;
   features: { text: string; included: boolean }[];
+  includedSeats: number;            // seats included in base plan price
+  seatPrice: number | null;         // cents per extra seat/mo (null = no extra seats)
   // Stripe price ID — fill in after creating products in Stripe dashboard
   stripePriceId?: string;
 }
@@ -40,6 +42,8 @@ export const unifiedPlans: UnifiedPlan[] = [
     creditsIncluded: 3,        // one-time only, not monthly
     storageIncluded: false,
     featureLevel: "limited",
+    includedSeats: 1,
+    seatPrice: null,
     description: "Try the platform. No credit card required.",
     features: [
       { text: "Access to all apps (limited mode)", included: true },
@@ -58,6 +62,8 @@ export const unifiedPlans: UnifiedPlan[] = [
     creditsIncluded: 0,        // no monthly credits on Core
     storageIncluded: false,
     featureLevel: "standard",
+    includedSeats: 1,
+    seatPrice: 2900,           // $29/extra seat/mo
     description: "For solo adjusters and independent pros.",
     features: [
       { text: "Full access to all apps", included: true },
@@ -77,6 +83,8 @@ export const unifiedPlans: UnifiedPlan[] = [
     storageIncluded: true,
     featureLevel: "full",
     popular: true,
+    includedSeats: 3,
+    seatPrice: 2400,           // $24/extra seat/mo
     description: "For growing teams and multi-app workflows.",
     features: [
       { text: "All apps included", included: true },
@@ -96,6 +104,8 @@ export const unifiedPlans: UnifiedPlan[] = [
     creditsIncluded: 25,
     storageIncluded: true,
     featureLevel: "full",
+    includedSeats: 5,
+    seatPrice: 1900,           // $19/extra seat/mo
     description: "For large firms, CAT teams, and high-volume operations.",
     features: [
       { text: "All Pro features", included: true },

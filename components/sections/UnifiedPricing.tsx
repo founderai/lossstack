@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, X, Zap, Star, ArrowRight, HardDrive, Phone } from "lucide-react";
+import { Check, X, Zap, Star, ArrowRight, HardDrive, Phone, Users } from "lucide-react";
 import Link from "next/link";
 import { unifiedPlans, type UnifiedPlan } from "@/data/pricing";
 import { cn } from "@/lib/utils";
@@ -74,8 +74,24 @@ export default function UnifiedPricing() {
                 <p className="text-slate-400 text-xs leading-relaxed">{plan.description}</p>
               </div>
 
-              {/* Storage pill */}
+              {/* Seat + Storage pills */}
               <div className="px-6 py-3 border-t border-slate-100 flex flex-wrap gap-2">
+                {/* Seat pill */}
+                {plan.id !== "free" && (
+                  <span
+                    className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full"
+                    style={{ backgroundColor: `${colors.accent}15`, color: colors.accent }}
+                  >
+                    <Users className="w-3 h-3" />
+                    {plan.includedSeats} seat{plan.includedSeats > 1 ? "s" : ""} included
+                  </span>
+                )}
+                {plan.seatPrice && (
+                  <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-500">
+                    +${plan.seatPrice / 100}/extra seat
+                  </span>
+                )}
+                {/* Storage pill */}
                 {plan.storageIncluded ? (
                   <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-teal-50 text-teal-700">
                     <HardDrive className="w-3 h-3" />
@@ -86,12 +102,12 @@ export default function UnifiedPricing() {
                     <HardDrive className="w-3 h-3" />
                     Storage add-on: +$49/mo
                   </span>
-                ) : (
+                ) : plan.id !== "free" ? (
                   <span className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full bg-slate-100 text-slate-400">
                     <HardDrive className="w-3 h-3" />
                     No storage
                   </span>
-                )}
+                ) : null}
               </div>
 
               {/* Feature list */}
