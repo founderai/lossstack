@@ -18,17 +18,17 @@ export default function CTASection() {
           className="text-center mb-14"
         >
           <h2 className="text-3xl lg:text-4xl font-bold text-white mb-4">
-            Ready to build your stack?
+            Ready to get started?
           </h2>
           <p className="text-blue-200/70 text-lg max-w-2xl mx-auto mb-8">
-            Start with one app or go all-in on the full LossStack suite. Bundle pricing applies automatically — no codes, no friction.
+            One subscription. All three apps. Pick the plan that fits your workflow and scale as you grow.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-4">
             <Link
               href="/pricing"
               className="flex items-center gap-2 bg-white text-[#0f1e3c] font-bold px-6 py-3 rounded-lg hover:bg-blue-50 transition-colors text-sm shadow-sm"
             >
-              Build Your Stack
+              View Pricing
               <ArrowRight className="w-4 h-4" />
             </Link>
             <Link

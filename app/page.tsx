@@ -9,7 +9,6 @@ import CTASection from "@/components/sections/CTASection";
 import ContactSection from "@/components/sections/ContactSection";
 import Footer from "@/components/sections/Footer";
 import { apps } from "@/data/apps";
-import { appPricingData, pricingConfig } from "@/data/pricing";
 import Link from "next/link";
 import { Layers, ArrowRight, Zap, Shield, BarChart2 } from "lucide-react";
 
@@ -114,94 +113,6 @@ export default function Home() {
 
       {/* Industry credibility */}
       <IndustrySection />
-
-      {/* Bundle savings — real pricing visual */}
-      <section className="px-6 py-16 lg:py-20 bg-[#0f1e3c]">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 mb-4">
-              <span className="text-blue-200 text-xs font-semibold uppercase tracking-wide">Bundle Savings</span>
-            </div>
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-3">
-              Stack and save up to 25%.
-            </h2>
-            <p className="text-blue-200/70 text-lg max-w-xl mx-auto">
-              Subscribe to each app individually — or bundle two or three and unlock automatic discounts.
-            </p>
-          </div>
-
-          {/* Individual price cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            {appPricingData.map((appData) => {
-              const app = apps.find((a) => a.id === appData.appId)!;
-              const lowestPaid = appData.tiers.find((t) => typeof t.price === "number");
-              return (
-                <div key={appData.appId} className="bg-white/5 border border-white/10 rounded-2xl p-5">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div
-                      className="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-bold shrink-0"
-                      style={{ backgroundColor: `${app.accentColor}22`, color: app.accentColor }}
-                    >
-                      {app.name.slice(0, 2).toUpperCase()}
-                    </div>
-                    <div className="font-bold text-white">{app.name}</div>
-                  </div>
-                  <div className="text-blue-200/60 text-xs mb-3">Starting at</div>
-                  <div className="text-3xl font-bold text-white mb-1">
-                    ${lowestPaid?.price}<span className="text-blue-300/60 text-sm font-normal">/mo</span>
-                  </div>
-                  <div className="text-blue-200/50 text-xs">{lowestPaid?.description}</div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Bundle comparison row */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* 2-app bundle */}
-            <div className="bg-white/8 border border-white/15 rounded-2xl p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="font-bold text-white">2-App Bundle</div>
-                <div className="bg-blue-500/30 text-blue-300 text-xs font-bold px-2.5 py-1 rounded-full">
-                  {pricingConfig.twoAppDiscountPercent}% OFF
-                </div>
-              </div>
-              <p className="text-blue-200/60 text-sm mb-4">
-                Pick any two apps — discount applies automatically at checkout.
-              </p>
-              <Link
-                href="/pricing"
-                className="flex items-center justify-center gap-2 bg-white/10 hover:bg-white/15 border border-white/20 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors"
-              >
-                <Layers className="w-4 h-4" />
-                Calculate my savings
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-
-            {/* 3-app bundle */}
-            <div className="bg-teal-500/15 border border-teal-400/30 rounded-2xl p-6">
-              <div className="flex items-center justify-between mb-3">
-                <div className="font-bold text-white">Full Suite — 3 Apps</div>
-                <div className="bg-teal-400/30 text-teal-300 text-xs font-bold px-2.5 py-1 rounded-full">
-                  {pricingConfig.threeAppDiscountPercent}% OFF
-                </div>
-              </div>
-              <p className="text-teal-200/70 text-sm mb-4">
-                The complete LossStack suite — RestoreCam + ImageLablr + Appraisly.
-              </p>
-              <Link
-                href="/pricing"
-                className="flex items-center justify-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors"
-              >
-                <Layers className="w-4 h-4" />
-                Build full stack
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* Testimonials */}
       <TestimonialsSection />
