@@ -12,6 +12,126 @@ export interface AppPricing {
   tiers: PricingTier[];
 }
 
+// ─── Unified LossStack Plans ────────────────────────────────────────────────
+
+export type FeatureLevel = "limited" | "standard" | "full";
+
+export interface UnifiedPlan {
+  id: "free" | "core" | "pro" | "firm";
+  name: string;
+  monthlyPrice: number | null;      // null = free
+  reportPrice: number | null;       // per-report charge when credits exhausted
+  creditsIncluded: number;          // monthly credits included
+  storageIncluded: boolean;
+  featureLevel: FeatureLevel;
+  popular?: boolean;
+  description: string;
+  features: { text: string; included: boolean }[];
+  // Stripe price ID — fill in after creating products in Stripe dashboard
+  stripePriceId?: string;
+}
+
+export const unifiedPlans: UnifiedPlan[] = [
+  {
+    id: "free",
+    name: "Free",
+    monthlyPrice: null,
+    reportPrice: null,
+    creditsIncluded: 2,
+    storageIncluded: false,
+    featureLevel: "limited",
+    description: "Try the platform. No credit card required.",
+    features: [
+      { text: "2 reports/month", included: true },
+      { text: "Access to all 3 apps", included: true },
+      { text: "Basic photo labeling", included: true },
+      { text: "Basic field documentation", included: true },
+      { text: "PDF exports", included: false },
+      { text: "Bulk processing", included: false },
+      { text: "Storage & file persistence", included: false },
+      { text: "Advanced AI features", included: false },
+      { text: "Team seats", included: false },
+      { text: "API access", included: false },
+    ],
+  },
+  {
+    id: "core",
+    name: "Core",
+    monthlyPrice: 99,
+    reportPrice: 18,
+    creditsIncluded: 8,
+    storageIncluded: false,
+    featureLevel: "standard",
+    description: "For solo adjusters and independent pros.",
+    features: [
+      { text: "8 reports/month included", included: true },
+      { text: "$18/report after credits", included: true },
+      { text: "Access to all 3 apps", included: true },
+      { text: "PDF exports", included: true },
+      { text: "Photo labeling & organization", included: true },
+      { text: "Field documentation tools", included: true },
+      { text: "Bulk processing", included: false },
+      { text: "Storage add-on available (+$49/mo)", included: false },
+      { text: "Advanced AI features", included: false },
+      { text: "Team seats", included: false },
+      { text: "API access", included: false },
+    ],
+  },
+  {
+    id: "pro",
+    name: "Pro",
+    monthlyPrice: 249,
+    reportPrice: 14,
+    creditsIncluded: 25,
+    storageIncluded: true,
+    featureLevel: "full",
+    popular: true,
+    description: "For growing teams and multi-app workflows.",
+    features: [
+      { text: "25 reports/month included", included: true },
+      { text: "$14/report after credits", included: true },
+      { text: "Access to all 3 apps", included: true },
+      { text: "PDF exports", included: true },
+      { text: "Bulk processing", included: true },
+      { text: "Storage included", included: true },
+      { text: "Advanced AI features", included: true },
+      { text: "Up to 5 team seats", included: true },
+      { text: "Priority support", included: true },
+      { text: "API access", included: false },
+    ],
+  },
+  {
+    id: "firm",
+    name: "Firm",
+    monthlyPrice: 499,
+    reportPrice: 10,
+    creditsIncluded: 60,
+    storageIncluded: true,
+    featureLevel: "full",
+    description: "For large firms, CAT teams, and high-volume operations.",
+    features: [
+      { text: "60 reports/month included", included: true },
+      { text: "$10/report after credits", included: true },
+      { text: "Access to all 3 apps", included: true },
+      { text: "PDF exports", included: true },
+      { text: "Bulk processing", included: true },
+      { text: "Storage included", included: true },
+      { text: "Advanced AI features", included: true },
+      { text: "Unlimited team seats", included: true },
+      { text: "Priority support", included: true },
+      { text: "API access", included: true },
+    ],
+  },
+];
+
+// Stripe Price IDs for unified plans — update after creating in Stripe dashboard
+export const unifiedStripePriceIds: Record<string, string> = {
+  core:    "", // price_xxx
+  pro:     "", // price_xxx
+  firm:    "", // price_xxx
+  storage: "", // price_xxx  ($49/mo storage add-on)
+};
+
 // Real pricing from each app's website — edit here to keep in sync
 export const appPricingData: AppPricing[] = [
   {

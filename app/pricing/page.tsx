@@ -1,8 +1,12 @@
 import Footer from "@/components/sections/Footer";
-import PricingBuilder from "@/components/sections/PricingBuilder";
+import UnifiedPricing from "@/components/sections/UnifiedPricing";
 import Link from "next/link";
 import { BarChart2 } from "lucide-react";
-import { pricingConfig } from "@/data/pricing";
+
+export const metadata = {
+  title: "Pricing — LossStack",
+  description: "One subscription. All three apps. Plans from free to firm.",
+};
 
 export default function PricingPage() {
   return (
@@ -11,38 +15,39 @@ export default function PricingPage() {
       <div className="bg-[#0f1e3c] px-6 py-12 lg:py-16">
         <div className="max-w-5xl mx-auto text-center">
           <div className="inline-flex items-center gap-2 bg-white/10 border border-white/15 rounded-full px-4 py-1.5 mb-5">
-            <span className="text-blue-200 text-xs font-semibold uppercase tracking-wide">Bundle Pricing</span>
+            <span className="text-blue-200 text-xs font-semibold uppercase tracking-wide">Unified Pricing</span>
           </div>
           <h1 className="text-3xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-            Build your stack.
+            One plan.
             <br />
-            <span className="text-blue-300/80">Save more as you add more.</span>
+            <span className="text-blue-300/80">All three apps included.</span>
           </h1>
           <p className="text-blue-200/70 text-lg max-w-2xl mx-auto mb-8">
-            Each app has its own pricing tiers — visit any app site to subscribe. Add 2 or 3 apps and unlock LossStack bundle savings on top.
+            Every LossStack plan gives you access to Appraisly, ImageLablr, and RestoreCam. Pay once, use all three. Scale with credits as your volume grows.
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <div className="flex items-center gap-2 bg-white/10 border border-white/15 rounded-xl px-4 py-2.5 text-sm text-blue-200">
-              <span className="font-bold text-white">{pricingConfig.twoAppDiscountPercent}% off</span>
-              any 2 apps
-            </div>
-            <div className="flex items-center gap-2 bg-teal-500/20 border border-teal-400/30 rounded-xl px-4 py-2.5 text-sm text-teal-200">
-              <span className="font-bold text-teal-300">{pricingConfig.threeAppDiscountPercent}% off</span>
-              full 3-app suite
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {[
+              { label: "No per-app fees", color: "bg-white/10 border-white/15 text-blue-200" },
+              { label: "Credits roll forward", color: "bg-teal-500/20 border-teal-400/30 text-teal-200" },
+              { label: "Cancel anytime", color: "bg-white/10 border-white/15 text-blue-200" },
+            ].map((pill) => (
+              <div key={pill.label} className={`flex items-center border rounded-xl px-4 py-2 text-sm font-medium ${pill.color}`}>
+                {pill.label}
+              </div>
+            ))}
           </div>
         </div>
       </div>
 
-      {/* Bundle calculator — top of page */}
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        <PricingBuilder />
+      {/* Pricing cards */}
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <UnifiedPricing />
       </div>
 
       {/* Compare link */}
       <div className="max-w-5xl mx-auto px-6 pb-12 text-center">
         <p className="text-slate-500 text-sm mb-4">
-          Not sure which apps you need? See a full feature-by-feature comparison.
+          Want a side-by-side feature breakdown?
         </p>
         <Link
           href="/compare"
