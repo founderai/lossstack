@@ -118,7 +118,6 @@ export default function HeroSection() {
         >
           {[
             { value: "3", label: "Specialized Apps" },
-            { value: "25%", label: "Max Bundle Savings" },
             { value: "AI-First", label: "Built for Claims Teams" },
             { value: "1", label: "Unified Ecosystem" },
           ].map((stat) => (
