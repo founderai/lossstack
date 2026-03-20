@@ -41,13 +41,13 @@ export const navItems: NavItem[] = [
   },
   {
     id: "pricing",
-    label: "Bundle Pricing",
+    label: "Pricing",
     href: "/pricing",
     icon: "Layers",
   },
   {
     id: "compare",
-    label: "Compare Plans",
+    label: "Compare Apps",
     href: "/compare",
     icon: "BarChart2",
   },
