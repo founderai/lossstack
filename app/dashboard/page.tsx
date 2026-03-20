@@ -48,12 +48,13 @@ const portalApps = [
     accentColor: "#F59E0B",
     launchUrl: "https://www.restorecam.com",
     icon: (
-      <div
-        className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-sm"
-        style={{ backgroundColor: "#F59E0B18", color: "#F59E0B" }}
-      >
-        RC
-      </div>
+      <Image
+        src="/Restore Cam Icon.png"
+        alt="RestoreCam"
+        width={48}
+        height={48}
+        className="w-12 h-12 object-contain rounded-xl"
+      />
     ),
   },
 ];
@@ -124,7 +125,7 @@ export default function DashboardPage() {
             <div>
               <div className="text-white font-bold text-lg mb-1">Not subscribed to all three?</div>
               <p className="text-blue-200/60 text-sm max-w-md">
-                Bundle any 2 apps and save 15%, or all 3 for 25% off — billed monthly, cancel anytime.
+                One subscription covers all three apps. View our plans to find the right tier for your team.
               </p>
             </div>
           </div>
@@ -132,7 +133,7 @@ export default function DashboardPage() {
             href="/pricing"
             className="flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm shrink-0"
           >
-            View Bundle Pricing
+            View Pricing
             <ArrowRight className="w-4 h-4" />
           </Link>
         </motion.div>
