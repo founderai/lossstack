@@ -8,25 +8,25 @@ export const faqs: FAQ[] = [
   {
     question: "What is LossStack?",
     answer:
-      "LossStack is a software suite designed for insurance claims, appraisal, and restoration professionals. It bundles together three specialized workflow tools — Appraisly, ImageLablr, and RestoreCam — under one unified platform with bundle pricing.",
+      "LossStack is a software suite designed for insurance claims, appraisal, and restoration professionals. It brings together three specialized workflow tools — Appraisly, ImageLablr, and RestoreCam — under one unified platform with a single subscription.",
     category: "General",
   },
   {
     question: "Can I subscribe to just one app?",
     answer:
-      "Yes. Each app in the LossStack suite can be purchased individually. However, subscribing to 2 or 3 apps together unlocks automatic bundle discounts, making it the smartest value for teams that need more than one workflow tool.",
+      "LossStack is a unified platform — one subscription gives you access to all apps. Plans start at $99/month. Visit the pricing page to see all available tiers.",
     category: "Pricing",
   },
   {
-    question: "How does bundle pricing work?",
+    question: "How does LossStack pricing work?",
     answer:
-      "When you select any 2 apps, a bundle discount is automatically applied to your total. When you select all 3 apps, an even larger discount is applied. Discounts are calculated off the standard per-app price and shown clearly before checkout.",
+      "LossStack uses a unified plan model — one subscription covers all apps. Plans include a set number of report credits per month. When credits are used, a per-report rate applies based on your plan. The Free plan includes 3 one-time credits. Core, Pro, and Firm plans scale in features, credits, and report rates.",
     category: "Pricing",
   },
   {
     question: "Is there an annual pricing option?",
     answer:
-      "Yes. All apps and bundles are available on monthly or annual billing. Choosing annual billing provides additional savings on top of any bundle discount you may already have.",
+      "Annual billing options are available. Contact us at founderai@pm.me for annual pricing details.",
     category: "Pricing",
   },
   {
@@ -54,9 +54,9 @@ export const faqs: FAQ[] = [
     category: "Support",
   },
   {
-    question: "Can I add or remove apps from my bundle later?",
+    question: "Can I change my plan later?",
     answer:
-      "Yes. You can adjust your app subscriptions at any time. Bundle pricing will be recalculated automatically based on the number of apps in your active subscription.",
+      "Yes. You can upgrade or downgrade your LossStack plan at any time. Changes take effect at the start of your next billing cycle.",
     category: "Pricing",
   },
   {

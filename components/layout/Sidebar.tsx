@@ -58,7 +58,7 @@ const navItems: NavItem[] = [
       { id: "restorecam", label: "RestoreCam", href: "/apps#restorecam", icon: "Camera" },
     ],
   },
-  { id: "pricing", label: "Bundle Pricing", href: "/pricing", icon: "Layers" },
+  { id: "pricing", label: "Pricing", href: "/pricing", icon: "Layers" },
   { id: "compare", label: "Compare Plans", href: "/compare", icon: "BarChart2" },
   { id: "faqs", label: "FAQs", href: "/#faqs", icon: "HelpCircle" },
   { id: "contact", label: "Contact / Demo", href: "/contact", icon: "Mail" },

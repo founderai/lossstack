@@ -37,7 +37,7 @@ export default function TermsPage() {
           <p className="text-slate-600 text-sm leading-relaxed mb-3">LossStack provides the following AI-powered applications:</p>
           <ul className="text-slate-600 text-sm space-y-2 list-disc pl-5">
             <li><strong>Appraisly</strong> — AI-assisted claims intelligence, appraisal narrative generation, and estimate comparison for insurance professionals.</li>
-            <li><strong>ImageLablr</strong> — AI-powered photo labeling, categorization, and documentation for claims and restoration teams.</li>
+            <li><strong>ImageLablr</strong> — Photo labeling, categorization, and documentation for claims and restoration teams.</li>
             <li><strong>RestoreCam</strong> — Field operations platform for restoration contractors, including job documentation, GPS tracking, moisture readings, and report generation.</li>
           </ul>
         </section>
@@ -63,7 +63,7 @@ export default function TermsPage() {
           </p>
           <ul className="text-slate-600 text-sm space-y-2 list-disc pl-5">
             <li>Subscription fees are billed in advance on a monthly cycle.</li>
-            <li>Bundle discounts (15% for 2-app, 25% for 3-app) apply to the selected tier at time of purchase and are applied automatically via the LossStack checkout.</li>
+            <li>Plans are available at the Free, Core ($99/mo), Pro ($249/mo), Firm ($499/mo), and Enterprise tiers. Paid plans are billed monthly.</li>
             <li>Prices are subject to change with 30 days written notice to your registered email.</li>
             <li>You are responsible for all applicable taxes.</li>
           </ul>
@@ -72,7 +72,7 @@ export default function TermsPage() {
         <section className="mb-8">
           <h2 className="text-xl font-bold text-[#0f1e3c] mb-3">5. No Refund Policy</h2>
           <p className="text-slate-600 text-sm leading-relaxed">
-            <strong>All subscription payments are non-refundable.</strong> LossStack does not provide refunds, credits, or prorations for any partial subscription periods, unused credits, or early cancellations. If you cancel your subscription, you will retain access to the Services through the end of your current paid billing period, after which your access will terminate. This no-refund policy applies to all subscription tiers and bundle purchases across all LossStack applications.
+            <strong>All subscription payments are non-refundable.</strong> LossStack does not provide refunds, credits, or prorations for any partial subscription periods, unused credits, or early cancellations. If you cancel your subscription, you will retain access to the Services through the end of your current paid billing period, after which your access will terminate. This no-refund policy applies to all subscription tiers across all LossStack applications.
           </p>
         </section>
 
