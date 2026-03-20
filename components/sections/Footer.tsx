@@ -47,7 +47,7 @@ export default function Footer() {
             <h4 className="text-white font-semibold text-sm mb-4">Platform</h4>
             <ul className="space-y-2.5">
               <li><Link href="/apps" className="text-sm hover:text-white transition-colors">App Overview</Link></li>
-              <li><Link href="/pricing" className="text-sm hover:text-white transition-colors">Bundle Pricing</Link></li>
+              <li><Link href="/pricing" className="text-sm hover:text-white transition-colors">Pricing</Link></li>
               <li><Link href="/compare" className="text-sm hover:text-white transition-colors">Compare Plans</Link></li>
               <li><Link href="/roadmap" className="text-sm hover:text-white transition-colors">Roadmap</Link></li>
               <li><Link href="/#faqs" className="text-sm hover:text-white transition-colors">FAQs</Link></li>
