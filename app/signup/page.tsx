@@ -303,20 +303,75 @@ export default function SignupPage() {
                       </div>
                     )}
 
-                    {/* Running total */}
-                    {(extraSeats > 0 || (selectedPlan === "core" && addStorage)) && (
-                      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
-                        <span className="text-slate-500">Monthly add-on cost</span>
-                        <span className="font-bold text-[#0f1e3c]">
-                          +${
-                            (extraSeats * (PLAN_CONFIG[selectedPlan as PlanId]?.seatPrice ?? 0) / 100) +
-                            (selectedPlan === "core" && addStorage ? 49 : 0)
-                          }.00/mo
-                        </span>
-                      </div>
-                    )}
                   </div>
                 )}
+
+                {/* ── Order summary ── always visible for paid plans */}
+                {selectedPlan !== "free" && (() => {
+                  const basePlanPrice = selectedPlanData?.monthlyPrice ?? 0;
+                  const seatAddOn = extraSeats * (PLAN_CONFIG[selectedPlan as PlanId]?.seatPrice ?? 0) / 100;
+                  const storageAddOn = selectedPlan === "core" && addStorage ? 49 : 0;
+                  const grandTotal = basePlanPrice + seatAddOn + storageAddOn;
+                  const planCfg = PLAN_CONFIG[selectedPlan as PlanId];
+
+                  return (
+                    <div
+                      className="rounded-2xl border-2 p-5 mb-5"
+                      style={{ borderColor: PLAN_COLORS[selectedPlan]?.border, backgroundColor: PLAN_COLORS[selectedPlan]?.bg }}
+                    >
+                      <div className="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">Order Summary</div>
+
+                      <div className="space-y-2 text-sm">
+                        {/* Base plan */}
+                        <div className="flex items-center justify-between">
+                          <span className="text-slate-600">
+                            {selectedPlanData?.name} Plan
+                            <span className="text-xs text-slate-400 ml-1.5">({planCfg.includedSeats} seat{planCfg.includedSeats > 1 ? "s" : ""} included)</span>
+                          </span>
+                          <span className="font-semibold text-[#0f1e3c]">${basePlanPrice}.00/mo</span>
+                        </div>
+
+                        {/* Extra seats */}
+                        {extraSeats > 0 && (
+                          <div className="flex items-center justify-between text-slate-500">
+                            <span>
+                              {extraSeats} extra seat{extraSeats > 1 ? "s" : ""}
+                              <span className="text-xs ml-1.5">(${planCfg.seatPrice / 100}/seat)</span>
+                            </span>
+                            <span>+${seatAddOn.toFixed(2)}/mo</span>
+                          </div>
+                        )}
+
+                        {/* Storage add-on */}
+                        {storageAddOn > 0 && (
+                          <div className="flex items-center justify-between text-slate-500">
+                            <span>Storage add-on</span>
+                            <span>+$49.00/mo</span>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Divider + grand total */}
+                      <div className="mt-3 pt-3 border-t-2 border-dashed" style={{ borderColor: PLAN_COLORS[selectedPlan]?.border }}>
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="font-bold text-[#0f1e3c]">Total before taxes</span>
+                            <span className="block text-xs text-slate-400 mt-0.5">Billed monthly · cancel anytime</span>
+                          </div>
+                          <div className="text-right">
+                            <span
+                              className="text-2xl font-extrabold"
+                              style={{ color: PLAN_COLORS[selectedPlan]?.accent }}
+                            >
+                              ${grandTotal.toFixed(2)}
+                            </span>
+                            <span className="text-slate-400 text-xs">/mo</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })()}
 
                 {/* Free plan option */}
                 <button
