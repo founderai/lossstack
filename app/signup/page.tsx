@@ -36,6 +36,8 @@ export default function SignupPage() {
   const [error, setError] = useState("");
   const [agreeToAI, setAgreeToAI] = useState(false);
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(true);
+  const [extraSeats, setExtraSeats] = useState(0);
+  const [addStorage, setAddStorage] = useState(false);
 
   const stepIndex = STEPS.indexOf(step);
   const paidPlans = unifiedPlans.filter((p) => p.id !== "free");
@@ -225,10 +227,15 @@ export default function SignupPage() {
                             <Zap className="w-3 h-3 shrink-0" style={{ color: colors.accent }} />
                             ${plan.reportPrice}/report
                           </div>
-                          {plan.storageIncluded && (
+                          {plan.storageIncluded ? (
                             <div className="flex items-center gap-1.5 text-xs text-slate-600">
                               <HardDrive className="w-3 h-3 shrink-0 text-teal-500" />
                               Storage included
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                              <HardDrive className="w-3 h-3 shrink-0" />
+                              {plan.id === "core" ? "No storage (add-on available)" : "No storage"}
                             </div>
                           )}
                         </div>
@@ -236,6 +243,80 @@ export default function SignupPage() {
                     );
                   })}
                 </div>
+
+                {/* Add-ons — only shown when a paid plan is selected */}
+                {selectedPlan !== "free" && (
+                  <div className="bg-white border-2 border-slate-200 rounded-2xl p-5 mb-5 space-y-4">
+                    <div className="text-xs font-bold text-slate-500 uppercase tracking-wide">Add-ons</div>
+
+                    {/* Extra seats */}
+                    <div className="flex items-center justify-between gap-4">
+                      <div>
+                        <div className="text-sm font-semibold text-[#0f1e3c]">
+                          Extra Seats
+                          <span className="ml-2 text-xs font-normal text-slate-400">
+                            +${PLAN_CONFIG[selectedPlan as PlanId]?.seatPrice / 100}/seat/mo
+                          </span>
+                        </div>
+                        <p className="text-xs text-slate-400 mt-0.5">
+                          {PLAN_CONFIG[selectedPlan as PlanId]?.includedSeats} included · add more for your team
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => setExtraSeats(Math.max(0, extraSeats - 1))}
+                          className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 font-bold text-base disabled:opacity-40"
+                          disabled={extraSeats === 0}
+                        >−</button>
+                        <span className="w-6 text-center text-sm font-bold text-[#0f1e3c]">{extraSeats}</span>
+                        <button
+                          onClick={() => setExtraSeats(extraSeats + 1)}
+                          className="w-8 h-8 rounded-lg border border-slate-200 flex items-center justify-center text-slate-500 hover:bg-slate-50 font-bold text-base"
+                        >+</button>
+                      </div>
+                    </div>
+
+                    {/* Storage — Core only */}
+                    {selectedPlan === "core" && (
+                      <div className="flex items-center justify-between gap-4 pt-3 border-t border-slate-100">
+                        <div>
+                          <div className="text-sm font-semibold text-[#0f1e3c]">
+                            Storage Add-On
+                            <span className="ml-2 text-xs font-normal text-slate-400">+$49/mo</span>
+                          </div>
+                          <p className="text-xs text-slate-400 mt-0.5">
+                            Persistent file storage across all apps. Included in Pro &amp; Firm.
+                          </p>
+                        </div>
+                        <button
+                          onClick={() => setAddStorage(!addStorage)}
+                          className={cn(
+                            "relative w-11 h-6 rounded-full transition-all duration-200 shrink-0",
+                            addStorage ? "bg-blue-500" : "bg-slate-200"
+                          )}
+                        >
+                          <span className={cn(
+                            "absolute top-0.5 w-5 h-5 bg-white rounded-full shadow transition-all duration-200",
+                            addStorage ? "left-[22px]" : "left-0.5"
+                          )} />
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Running total */}
+                    {(extraSeats > 0 || (selectedPlan === "core" && addStorage)) && (
+                      <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-sm">
+                        <span className="text-slate-500">Monthly add-on cost</span>
+                        <span className="font-bold text-[#0f1e3c]">
+                          +${
+                            (extraSeats * (PLAN_CONFIG[selectedPlan as PlanId]?.seatPrice ?? 0) / 100) +
+                            (selectedPlan === "core" && addStorage ? 49 : 0)
+                          }.00/mo
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Free plan option */}
                 <button
