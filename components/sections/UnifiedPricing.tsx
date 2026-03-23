@@ -134,14 +134,14 @@ export default function UnifiedPricing() {
               <div className="px-6 pb-6 pt-2">
                 {plan.monthlyPrice === null ? (
                   <Link
-                    href="/contact"
+                    href="/signup"
                     className="w-full flex items-center justify-center gap-2 border-2 border-slate-200 text-slate-600 font-semibold py-2.5 rounded-xl text-sm hover:border-slate-300 hover:bg-slate-50 transition-colors"
                   >
                     Get Started Free
                   </Link>
                 ) : (
                   <Link
-                    href="/contact"
+                    href="/signup"
                     className="w-full flex items-center justify-center gap-2 text-white font-bold py-2.5 rounded-xl text-sm transition-colors hover:opacity-90"
                     style={{ backgroundColor: colors.accent }}
                   >
