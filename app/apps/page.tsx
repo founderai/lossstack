@@ -235,12 +235,6 @@ export default function AppsPage() {
                     <ExternalLink className="w-3.5 h-3.5" />
                     Visit {currentApp.name} Website
                   </Link>
-                  <Link
-                    href="/pricing"
-                    className="flex items-center gap-2 text-sm font-semibold px-5 py-2.5 rounded-lg border border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 transition-all duration-150"
-                  >
-                    Add to Bundle
-                  </Link>
                 </div>
               </div>
             </div>
