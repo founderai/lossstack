@@ -119,12 +119,27 @@ export const unifiedPlans: UnifiedPlan[] = [
   },
 ];
 
-// Stripe Price IDs for unified plans — update after creating in Stripe dashboard
+// Stripe Price IDs for unified plans — set via .env.local, never hardcode here
 export const unifiedStripePriceIds: Record<string, string> = {
-  core:    "", // price_xxx
-  pro:     "", // price_xxx
-  firm:    "", // price_xxx
-  storage: "", // price_xxx  ($49/mo storage add-on)
+  core:    process.env.STRIPE_PRICE_CORE          ?? "",
+  pro:     process.env.STRIPE_PRICE_PRO           ?? "",
+  firm:    process.env.STRIPE_PRICE_FIRM          ?? "",
+  storage: process.env.STRIPE_PRICE_STORAGE_ADDON ?? "",
+};
+
+// Per-report price IDs — one-time charges when credits run out
+export const reportStripePriceIds: Record<string, string> = {
+  free: process.env.STRIPE_REPORT_PRICE_FREE  ?? "",
+  core: process.env.STRIPE_REPORT_PRICE_CORE  ?? "",
+  pro:  process.env.STRIPE_REPORT_PRICE_PRO   ?? "",
+  firm: process.env.STRIPE_REPORT_PRICE_FIRM  ?? "",
+};
+
+// Extra seat price IDs — per-unit recurring, quantity updated dynamically
+export const seatStripePriceIds: Record<string, string> = {
+  core: process.env.STRIPE_SEAT_PRICE_CORE ?? "",
+  pro:  process.env.STRIPE_SEAT_PRICE_PRO  ?? "",
+  firm: process.env.STRIPE_SEAT_PRICE_FIRM ?? "",
 };
 
 // Real pricing from each app's website — edit here to keep in sync
