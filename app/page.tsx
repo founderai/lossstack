@@ -1,6 +1,5 @@
 import HeroSection from "@/components/sections/HeroSection";
 import AppCard from "@/components/sections/AppCard";
-import WorkflowSection from "@/components/sections/WorkflowSection";
 import ProductShowcase from "@/components/sections/ProductShowcase";
 import IndustrySection from "@/components/sections/IndustrySection";
 import TestimonialsSection from "@/components/sections/TestimonialsSection";
@@ -39,9 +38,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* Workflow diagram */}
-      <WorkflowSection />
 
       {/* Why stack section */}
       <section className="px-6 py-16 lg:py-20 bg-white">
