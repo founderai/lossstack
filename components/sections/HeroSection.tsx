@@ -131,19 +131,19 @@ export default function HeroSection() {
         </motion.div>
         </div>{/* end left col */}
 
-        {/* Right col — large icon */}
+        {/* Right col — large icon, anchored to top-right */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.85 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, scale: 0.85, y: -16 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-          className="hidden lg:flex items-center justify-center shrink-0"
+          className="hidden lg:flex items-start justify-end shrink-0 self-start pt-2"
         >
           <div className="relative">
-            <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-[60px] scale-125" />
+            <div className="absolute inset-0 rounded-full bg-blue-500/25 blur-[80px] scale-150" />
             <img
               src="/Loss Stack Icon.png"
               alt="LossStack"
-              className="relative w-64 h-64 object-contain drop-shadow-2xl"
+              className="relative w-80 h-80 object-contain drop-shadow-2xl"
             />
           </div>
         </motion.div>
