@@ -192,7 +192,7 @@ export default function UnifiedPricing() {
           </div>
         </div>
         <Link
-          href="/contact"
+          href="/signup"
           className="shrink-0 flex items-center gap-2 bg-blue-600 text-white text-sm font-semibold px-4 py-2.5 rounded-xl hover:bg-blue-700 transition-colors"
         >
           Add Storage <ArrowRight className="w-3.5 h-3.5" />
