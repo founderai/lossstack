@@ -3,12 +3,14 @@
 import Link from "next/link";
 import { Menu, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useUser, UserButton } from "@clerk/nextjs";
 
 interface TopbarProps {
   onMobileMenuOpen: () => void;
 }
 
 export default function Topbar({ onMobileMenuOpen }: TopbarProps) {
+  const { isSignedIn } = useUser();
   return (
     <header
       className="h-16 bg-[#0f1e3c] border-b border-white/10 flex items-center justify-between px-4 lg:px-6"
@@ -68,13 +70,17 @@ export default function Topbar({ onMobileMenuOpen }: TopbarProps) {
 
         <div className="w-px h-5 bg-white/10 hidden md:block" />
 
-        <Link
-          href="/signup"
-          className="flex items-center gap-1.5 bg-linear-to-r from-blue-500 to-teal-500 hover:from-blue-400 hover:to-teal-400 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-150 shadow-sm"
-        >
-          <span>Get Started</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+        {isSignedIn ? (
+          <UserButton />
+        ) : (
+          <Link
+            href="/signup"
+            className="flex items-center gap-1.5 bg-linear-to-r from-blue-500 to-teal-500 hover:from-blue-400 hover:to-teal-400 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-all duration-150 shadow-sm"
+          >
+            <span>Get Started</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        )}
       </div>
     </header>
   );
