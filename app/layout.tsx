@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import MainLayout from "@/components/layout/MainLayout";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -86,7 +87,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased`}>
-        <MainLayout>{children}</MainLayout>
+        <ClerkProvider>
+          <MainLayout>{children}</MainLayout>
+        </ClerkProvider>
       </body>
     </html>
   );

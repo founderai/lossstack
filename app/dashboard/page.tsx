@@ -1,9 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, ArrowRight, Package } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import Footer from "@/components/sections/Footer";
 
 const portalApps = [
@@ -111,32 +110,6 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Bundle CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.25 }}
-          className="bg-[#0f1e3c] rounded-2xl p-8 flex flex-col md:flex-row items-center justify-between gap-6"
-        >
-          <div className="flex items-center gap-4">
-            <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
-              <Package className="w-6 h-6 text-teal-400" />
-            </div>
-            <div>
-              <div className="text-white font-bold text-lg mb-1">Not subscribed to all three?</div>
-              <p className="text-blue-200/60 text-sm max-w-md">
-                One subscription covers all three apps. View our plans to find the right tier for your team.
-              </p>
-            </div>
-          </div>
-          <Link
-            href="/pricing"
-            className="flex items-center gap-2 bg-teal-500 hover:bg-teal-400 text-white font-bold px-6 py-3 rounded-xl transition-colors text-sm shrink-0"
-          >
-            View Pricing
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </motion.div>
       </div>
 
       <Footer />
