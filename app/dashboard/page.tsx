@@ -12,7 +12,7 @@ const portalApps = [
     badge: "Claims Intelligence",
     tagline: "AI-powered appraisal workflows for insurance professionals.",
     accentColor: "#3B82F6",
-    launchUrl: "https://app.appraislyai.com",
+    launchUrl: "https://appraislyai.com/appraisly",
     icon: (
       <Image
         src="/Appraisly Icon.png"
@@ -29,7 +29,7 @@ const portalApps = [
     badge: "Photo Intelligence",
     tagline: "AI photo labeling and documentation for claims.",
     accentColor: "#0D9488",
-    launchUrl: "https://app.imagelablr.com",
+    launchUrl: "https://www.imagelablr.com/dashboard",
     icon: (
       <div
         className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-sm"
@@ -45,7 +45,7 @@ const portalApps = [
     badge: "Field Operations",
     tagline: "Field-first documentation for restoration professionals.",
     accentColor: "#F59E0B",
-    launchUrl: "https://app.restorecam.com",
+    launchUrl: "https://restorecam.com/contents",
     icon: (
       <Image
         src="/Restore Cam Icon.png"
@@ -74,7 +74,7 @@ export default function DashboardPage() {
             </div>
             <h1 className="text-3xl lg:text-4xl font-bold text-white mb-3">Your LossStack Suite</h1>
             <p className="text-blue-200/60 text-base max-w-xl">
-              Select an app to open it. Each app handles its own login.
+              Select an app to open it. You&apos;re already signed in.
             </p>
           </motion.div>
         </div>
