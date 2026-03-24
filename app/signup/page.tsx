@@ -59,7 +59,6 @@ export default function SignupPage() {
   };
 
   const handleFinish = async () => {
-    if (!orgName.trim()) { setError("Enter your organization name"); return; }
     setLoading(true);
     setError("");
 

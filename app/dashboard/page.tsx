@@ -12,7 +12,7 @@ const portalApps = [
     badge: "Claims Intelligence",
     tagline: "AI-powered appraisal workflows for insurance professionals.",
     accentColor: "#3B82F6",
-    launchUrl: "https://appraislyai.com",
+    launchUrl: "https://app.appraislyai.com",
     icon: (
       <Image
         src="/Appraisly Icon.png"
@@ -29,7 +29,7 @@ const portalApps = [
     badge: "Photo Intelligence",
     tagline: "AI photo labeling and documentation for claims.",
     accentColor: "#0D9488",
-    launchUrl: "https://www.imagelablr.com",
+    launchUrl: "https://app.imagelablr.com",
     icon: (
       <div
         className="w-12 h-12 rounded-xl flex items-center justify-center font-bold text-sm"
@@ -45,7 +45,7 @@ const portalApps = [
     badge: "Field Operations",
     tagline: "Field-first documentation for restoration professionals.",
     accentColor: "#F59E0B",
-    launchUrl: "https://www.restorecam.com",
+    launchUrl: "https://app.restorecam.com",
     icon: (
       <Image
         src="/Restore Cam Icon.png"
