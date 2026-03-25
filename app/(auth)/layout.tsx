@@ -1,9 +1,7 @@
-import { SignUp } from "@clerk/nextjs";
-
-export default function Page() {
+export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f5f0e8]">
-      <SignUp />
+      {children}
     </div>
   );
 }

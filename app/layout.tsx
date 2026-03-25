@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import MainLayout from "@/components/layout/MainLayout";
 import { ClerkProvider } from "@clerk/nextjs";
 
 const inter = Inter({
@@ -98,7 +99,7 @@ export default function RootLayout({
           signInUrl="/sign-in"
           signUpUrl="/sign-up"
         >
-          {children}
+          <MainLayout>{children}</MainLayout>
         </ClerkProvider>
       </body>
     </html>
