@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
+import { auth } from "@clerk/nextjs/server";
 import { stripePriceIds, stripeCouponIds } from "@/data/pricing";
 
 export async function POST(req: NextRequest) {
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
     apiVersion: "2026-02-25.clover",
   });
+
+  // Capture Clerk user ID so the Stripe webhook can resolve the user
+  // without needing a separate DB lookup.
+  const { userId } = await auth();
 
   try {
     const { selections } = await req.json();
@@ -42,6 +47,11 @@ export async function POST(req: NextRequest) {
       mode: "subscription",
       line_items: lineItems,
       discounts: [{ coupon: couponId }],
+      // Pass clerk_user_id in subscription metadata so the webhook handler
+      // (app/api/webhooks/stripe/route.ts) can resolve userId without a DB lookup.
+      subscription_data: userId
+        ? { metadata: { clerk_user_id: userId } }
+        : undefined,
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://lossstack.com"}/checkout/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://lossstack.com"}/pricing`,
     });

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, Check, Users, Zap,
@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { unifiedPlans } from "@/data/pricing";
 import { PLAN_CONFIG, type PlanId } from "@/lib/planConfig";
 import { cn } from "@/lib/utils";
@@ -26,6 +27,7 @@ const STEPS: Step[] = ["plan", "account", "org", "done"];
 const STEP_LABELS = ["Choose Plan", "Your Account", "Your Organization", "You're In"];
 
 export default function SignupPage() {
+  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>("plan");
   const [selectedPlan, setSelectedPlan] = useState<string>("pro");
   const [firstName, setFirstName] = useState("");
@@ -38,6 +40,21 @@ export default function SignupPage() {
   const [subscribeNewsletter, setSubscribeNewsletter] = useState(true);
   const [extraSeats, setExtraSeats] = useState(0);
   const [addStorage, setAddStorage] = useState(false);
+  // Referral code from URL ?ref= param — persisted in localStorage so it
+  // survives Clerk's auth redirect and is available at the done step.
+  const [referralCode, setReferralCode] = useState<string | null>(null);
+
+  useEffect(() => {
+    const refFromUrl = searchParams?.get("ref");
+    if (refFromUrl) {
+      setReferralCode(refFromUrl);
+      sessionStorage.setItem("ls_ref_code", refFromUrl);
+    } else {
+      // Recover if we were redirected away and back
+      const stored = sessionStorage.getItem("ls_ref_code");
+      if (stored) setReferralCode(stored);
+    }
+  }, [searchParams]);
 
   const stepIndex = STEPS.indexOf(step);
   const paidPlans = unifiedPlans.filter((p) => p.id !== "free");
@@ -58,6 +75,21 @@ export default function SignupPage() {
     goNext();
   };
 
+  // Fire-and-forget referral signup — called once account is confirmed.
+  // Safe to call multiple times — processReferralSignup is idempotent.
+  const processReferralIfPresent = async (code: string) => {
+    try {
+      await fetch("/api/billing/referrals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "process_signup", referralCode: code }),
+      });
+      sessionStorage.removeItem("ls_ref_code");
+    } catch {
+      // Non-fatal — referral processing should not block signup
+    }
+  };
+
   const handleFinish = async () => {
     setLoading(true);
     setError("");
@@ -67,6 +99,7 @@ export default function SignupPage() {
       localStorage.setItem("lossstack_owner_email", email.toLowerCase().trim());
       setLoading(false);
       setStep("done");
+      if (referralCode) processReferralIfPresent(referralCode);
       return;
     }
 
@@ -87,6 +120,7 @@ export default function SignupPage() {
         localStorage.setItem("lossstack_owner_email", email.toLowerCase().trim());
         setStep("done");
         setLoading(false);
+        if (referralCode) processReferralIfPresent(referralCode);
         return;
       }
 
@@ -98,6 +132,7 @@ export default function SignupPage() {
 
       localStorage.setItem("lossstack_owner_email", email.toLowerCase().trim());
       setStep("done");
+      if (referralCode) processReferralIfPresent(referralCode);
     } catch {
       setError("Network error. Please check your connection and try again.");
     } finally {
