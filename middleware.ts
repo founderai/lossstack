@@ -25,7 +25,21 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
       !redirectTarget.startsWith('https://lossstack.com') &&
       !redirectTarget.startsWith('https://www.lossstack.com');
 
-    if (isExternal) {
+    // Allow redirects back to known satellite apps — they use lossstack.com
+    // as the primary Clerk auth domain (NEXT_PUBLIC_CLERK_IS_SATELLITE=true).
+    const ALLOWED_SATELLITE_ORIGINS = [
+      'https://appraislyai.com',
+      'https://www.appraislyai.com',
+      'https://imagelablr.com',
+      'https://www.imagelablr.com',
+      'https://restorecam.com',
+      'https://www.restorecam.com',
+    ];
+    const isSatellite = ALLOWED_SATELLITE_ORIGINS.some((origin) =>
+      redirectTarget.startsWith(origin)
+    );
+
+    if (isExternal && !isSatellite) {
       const clean = url.clone();
       clean.searchParams.delete('redirect_url');
       return NextResponse.redirect(clean);
