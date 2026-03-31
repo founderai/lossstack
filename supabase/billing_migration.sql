@@ -5,42 +5,60 @@
 
 -- ─── ENUMS ────────────────────────────────────────────────────
 
-create type if not exists transaction_type_enum as enum (
-  'monthly_allocation',
-  'referral_signup_bonus',
-  'referral_delayed_bonus',
-  'report_debit',
-  'report_reversal',
-  'admin_adjustment',
-  'promo_credit',
-  'expiration',
-  'migration_adjustment'
-);
+do $$ begin
+  create type transaction_type_enum as enum (
+    'monthly_allocation',
+    'referral_signup_bonus',
+    'referral_delayed_bonus',
+    'report_debit',
+    'report_reversal',
+    'admin_adjustment',
+    'promo_credit',
+    'expiration',
+    'migration_adjustment'
+  );
+exception when duplicate_object then null;
+end $$;
 
-create type if not exists direction_enum as enum ('credit', 'debit');
+do $$ begin
+  create type direction_enum as enum ('credit', 'debit');
+exception when duplicate_object then null;
+end $$;
 
-create type if not exists source_surface_enum as enum ('desktop', 'mobile', 'api', 'admin', 'system');
+do $$ begin
+  create type source_surface_enum as enum ('desktop', 'mobile', 'api', 'admin', 'system');
+exception when duplicate_object then null;
+end $$;
 
-create type if not exists source_app_enum as enum (
-  'lossstack', 'appraisly', 'imagelablr', 'restorecam', 'skymeasure'
-);
+do $$ begin
+  create type source_app_enum as enum (
+    'lossstack', 'appraisly', 'imagelablr', 'restorecam', 'skymeasure'
+  );
+exception when duplicate_object then null;
+end $$;
 
-create type if not exists referral_status_enum as enum (
-  'pending_signup',
-  'signed_up',
-  'active_paid_period',
-  'completed',
-  'failed',
-  'canceled',
-  'fraud_hold'
-);
+do $$ begin
+  create type referral_status_enum as enum (
+    'pending_signup',
+    'signed_up',
+    'active_paid_period',
+    'completed',
+    'failed',
+    'canceled',
+    'fraud_hold'
+  );
+exception when duplicate_object then null;
+end $$;
 
-create type if not exists billing_outcome_enum as enum (
-  'consumed_credit',
-  'billed_overage',
-  'blocked_free_no_credit',
-  'blocked_plan'
-);
+do $$ begin
+  create type billing_outcome_enum as enum (
+    'consumed_credit',
+    'billed_overage',
+    'blocked_free_no_credit',
+    'blocked_plan'
+  );
+exception when duplicate_object then null;
+end $$;
 
 -- ─── 1. user_wallets ──────────────────────────────────────────
 
@@ -232,18 +250,22 @@ begin
 end;
 $$;
 
+drop trigger if exists trg_wallets_updated_at on user_wallets;
 create trigger trg_wallets_updated_at
   before update on user_wallets
   for each row execute function set_updated_at();
 
+drop trigger if exists trg_referrals_updated_at on referrals;
 create trigger trg_referrals_updated_at
   before update on referrals
   for each row execute function set_updated_at();
 
+drop trigger if exists trg_sub_state_updated_at on subscription_state;
 create trigger trg_sub_state_updated_at
   before update on subscription_state
   for each row execute function set_updated_at();
 
+drop trigger if exists trg_plan_ent_updated_at on plan_entitlements;
 create trigger trg_plan_ent_updated_at
   before update on plan_entitlements
   for each row execute function set_updated_at();
