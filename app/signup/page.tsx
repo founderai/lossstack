@@ -735,7 +735,7 @@ function SignupPageInner() {
 
 export default function SignupPage() {
   return (
-    <Suspense>
+    <Suspense fallback={null}>
       <SignupPageInner />
     </Suspense>
   );
