@@ -43,12 +43,13 @@ interface NavItem {
   label: string;
   href: string;
   icon: string;
+  secondary?: boolean;
   children?: NavItem[];
 }
 
 const navItems: NavItem[] = [
   { id: "home", label: "Home", href: "/", icon: "Home" },
-  { id: "dashboard", label: "My Apps", href: "/dashboard", icon: "LayoutDashboard" },
+  { id: "dashboard", label: "Dashboard", href: "/dashboard", icon: "LayoutDashboard", secondary: true },
   {
     id: "apps",
     label: "Apps",
@@ -142,15 +143,18 @@ export default function Sidebar({ collapsed, onCollapse, mobileOpen, onMobileClo
                     <Link
                       href={item.href}
                       className={cn(
-                        "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-150",
+                        "flex items-center gap-3 px-3 rounded-lg font-medium transition-all duration-150",
+                        item.secondary ? "py-1.5 text-xs" : "py-2.5 text-sm",
                         active
                           ? "bg-white/15 text-white"
+                          : item.secondary
+                          ? "text-blue-300/70 hover:bg-white/10 hover:text-white"
                           : "text-blue-200 hover:bg-white/10 hover:text-white",
                         collapsed && "justify-center"
                       )}
                       onClick={onMobileClose}
                     >
-                      <Icon className="w-4 h-4 shrink-0" />
+                      <Icon className={cn("shrink-0", item.secondary ? "w-3.5 h-3.5" : "w-4 h-4")} />
                       {!collapsed && <span>{item.label}</span>}
                     </Link>
                   )}
