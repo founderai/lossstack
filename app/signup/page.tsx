@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, Check, Users, Zap,
@@ -26,7 +26,7 @@ type Step = "plan" | "account" | "org" | "done";
 const STEPS: Step[] = ["plan", "account", "org", "done"];
 const STEP_LABELS = ["Choose Plan", "Your Account", "Your Organization", "You're In"];
 
-export default function SignupPage() {
+function SignupPageInner() {
   const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>("plan");
   const [selectedPlan, setSelectedPlan] = useState<string>("pro");
@@ -730,5 +730,13 @@ export default function SignupPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function SignupPage() {
+  return (
+    <Suspense>
+      <SignupPageInner />
+    </Suspense>
   );
 }

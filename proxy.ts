@@ -26,7 +26,6 @@ export default clerkMiddleware(async (auth, req: NextRequest) => {
       !redirectTarget.startsWith('https://www.lossstack.com');
 
     if (isExternal) {
-      // Replace the external redirect_url with our internal dashboard
       const clean = url.clone();
       clean.searchParams.delete('redirect_url');
       return NextResponse.redirect(clean);
