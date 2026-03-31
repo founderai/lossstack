@@ -84,15 +84,13 @@ export default function DashboardPage() {
       <div className="max-w-4xl mx-auto px-6 py-10">
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
           {portalApps.map((app, i) => (
-            <motion.a
+            <motion.div
               key={app.id}
-              href={app.launchUrl}
-              target="_blank"
-              rel="noopener noreferrer"
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.35, delay: i * 0.07 }}
               whileHover={{ y: -3, transition: { duration: 0.15 } }}
+              onClick={() => window.open(app.launchUrl, "_blank", "noopener,noreferrer")}
               className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col items-center text-center gap-4 group cursor-pointer hover:shadow-md transition-shadow"
             >
               {app.icon}
@@ -106,7 +104,7 @@ export default function DashboardPage() {
               >
                 Open App <ExternalLink className="w-3 h-3" />
               </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
 
