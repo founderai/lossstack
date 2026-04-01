@@ -13,7 +13,7 @@ const portalApps = [
     accentColor: "#3B82F6",
     launchUrl: "https://appraislyai.com/appraisly",
     logo: (
-      <div className="flex items-center justify-center w-full h-24">
+      <div className="flex items-center justify-center w-full h-28 bg-[#0f1e3c] rounded-xl">
         <Image
           src="/Appraisly Logo.png"
           alt="Appraisly"
@@ -31,7 +31,7 @@ const portalApps = [
     accentColor: "#0D9488",
     launchUrl: "https://www.imagelablr.com/dashboard",
     logo: (
-      <div className="flex items-center justify-center w-full h-24">
+      <div className="flex items-center justify-center w-full h-28 bg-[#0f1e3c] rounded-xl">
         <Image
           src="/Imagelablr Vector.svg"
           alt="ImageLablr"
@@ -49,7 +49,7 @@ const portalApps = [
     accentColor: "#F59E0B",
     launchUrl: "https://www.restorecam.com/contents",
     logo: (
-      <div className="flex items-center justify-center w-full h-24">
+      <div className="flex items-center justify-center w-full h-28 bg-[#0f1e3c] rounded-xl">
         <Image
           src="/RestoreCam Logo Bottom .png"
           alt="RestoreCam"
@@ -99,7 +99,6 @@ export default function DashboardPage() {
             >
               {app.logo}
               <div>
-                <div className="font-bold text-[#0f1e3c] text-base mb-1">{app.name}</div>
                 <div className="text-slate-400 text-xs leading-relaxed">{app.tagline}</div>
               </div>
               <div
