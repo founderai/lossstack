@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Check, Minus } from "lucide-react";
+import Image from "next/image";
 import { apps } from "@/data/apps";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,12 @@ const appColors: Record<string, string> = {
   restorecam: "#F59E0B",
 };
 
+const appLogos: Record<string, string> = {
+  appraisly: "/Appraisly Logo.png",
+  imagelablr: "/Imagelablr Vector.svg",
+  restorecam: "/RestoreCam Logo Bottom .png",
+};
+
 export default function ComparisonTable() {
   return (
     <div className="overflow-x-auto">
@@ -45,15 +52,15 @@ export default function ComparisonTable() {
             </th>
             {apps.map((app) => (
               <th key={app.id} className="px-4 py-4 text-center w-[20%]">
-                <div className="flex flex-col items-center gap-1">
-                  <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold"
-                    style={{
-                      backgroundColor: `${appColors[app.id]}18`,
-                      color: appColors[app.id],
-                    }}
-                  >
-                    {app.name.slice(0, 2).toUpperCase()}
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-20 h-10 rounded-lg flex items-center justify-center bg-[#0f1e3c]">
+                    <Image
+                      src={appLogos[app.id]}
+                      alt={app.name}
+                      width={90}
+                      height={32}
+                      className="max-w-[76px] max-h-8 w-auto h-auto object-contain"
+                    />
                   </div>
                   <span className="text-[#0f1e3c] font-bold text-sm">{app.name}</span>
                 </div>

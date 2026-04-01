@@ -1,7 +1,8 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink, Check, FileText, Image, Camera, Zap, Shield, Clock } from "lucide-react";
+import { ExternalLink, Check, Zap, Shield, Clock } from "lucide-react";
+import NextImage from "next/image";
 import Link from "next/link";
 
 const products = [
@@ -14,7 +15,7 @@ const products = [
     bg: "#EFF6FF",
     borderColor: "#BFDBFE",
     url: "https://appraislyai.com",
-    icon: FileText,
+    logoSrc: "/Appraisly Logo.png",
     benefits: [
       { icon: Zap, text: "Generate professional claim narratives in minutes, not hours" },
       { icon: Shield, text: "Side-by-side estimate comparison with variance analysis" },
@@ -31,7 +32,7 @@ const products = [
     bg: "#F0FDFA",
     borderColor: "#99F6E4",
     url: "https://www.imagelablr.com",
-    icon: Image,
+    logoSrc: "/Imagelablr Vector.svg",
     benefits: [
       { icon: Zap, text: "Label hundreds of claim photos quickly and consistently" },
       { icon: Shield, text: "Organized by room, elevation, and damage category" },
@@ -48,7 +49,7 @@ const products = [
     bg: "#FFFBEB",
     borderColor: "#FDE68A",
     url: "https://www.restorecam.com",
-    icon: Camera,
+    logoSrc: "/RestoreCam Logo Bottom .png",
     benefits: [
       { icon: Zap, text: "Mobile-first capture for moisture readings and jobsite photos" },
       { icon: Shield, text: "Equipment tracking with full chain-of-custody documentation" },
@@ -241,12 +242,15 @@ export default function ProductShowcase() {
                 {/* Content side */}
                 <div className={`p-8 lg:p-10 ${i % 2 === 1 ? "lg:col-start-2" : ""}`}>
                   {/* Badge */}
-                  <div className="flex items-center gap-2 mb-5">
-                    <div
-                      className="w-9 h-9 rounded-xl flex items-center justify-center"
-                      style={{ backgroundColor: `${product.color}18` }}
-                    >
-                      <product.icon className="w-5 h-5" style={{ color: product.color }} />
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-20 h-12 rounded-xl flex items-center justify-center bg-[#0f1e3c] shrink-0">
+                      <NextImage
+                        src={product.logoSrc}
+                        alt={product.name}
+                        width={120}
+                        height={40}
+                        className="max-w-[100px] max-h-9 w-auto h-auto object-contain"
+                      />
                     </div>
                     <div>
                       <div className="font-bold text-[#0f1e3c] text-lg leading-none">{product.name}</div>
