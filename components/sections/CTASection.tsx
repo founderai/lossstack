@@ -1,9 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { ArrowRight, ExternalLink } from "lucide-react";
 import { apps } from "@/data/apps";
+
+const appLogos: Record<string, string> = {
+  appraisly: "/Appraisly Logo.png",
+  imagelablr: "/Imagelablr Vector.svg",
+  restorecam: "/RestoreCam Logo Bottom .png",
+};
 
 export default function CTASection() {
   return (
@@ -56,11 +63,14 @@ export default function CTASection() {
                 className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/10 transition-all duration-150 group"
               >
                 <div className="flex items-center justify-between mb-3">
-                  <div
-                    className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold"
-                    style={{ backgroundColor: `${app.accentColor}25`, color: app.accentColor }}
-                  >
-                    {app.name.slice(0, 2).toUpperCase()}
+                  <div className="w-20 h-10 rounded-xl flex items-center justify-center bg-[#0a1628] border border-white/10">
+                    <Image
+                      src={appLogos[app.id]}
+                      alt={app.name}
+                      width={90}
+                      height={32}
+                      className="max-w-16 max-h-8 w-auto h-auto object-contain"
+                    />
                   </div>
                   <Link
                     href={app.externalUrl}

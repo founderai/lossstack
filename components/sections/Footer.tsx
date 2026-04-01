@@ -7,7 +7,7 @@ import { apps } from "@/data/apps";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0a1628] text-blue-200/70 border-t border-white/5">
+    <footer className="bg-[#162944] text-blue-200/70 border-t border-white/5">
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           {/* Brand */}
@@ -18,7 +18,7 @@ export default function Footer() {
                 alt="LossStack"
                 width={160}
                 height={48}
-                className="h-10 w-auto object-contain"
+                className="h-14 w-auto object-contain"
               />
             </div>
             <p className="text-sm leading-relaxed text-blue-200/50">
