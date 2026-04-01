@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { ExternalLink } from "lucide-react";
 import { apps } from "@/data/apps";
 
@@ -11,11 +12,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-10">
           {/* Brand */}
           <div className="md:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-400 to-teal-400 flex items-center justify-center">
-                <span className="text-white font-bold text-sm">LS</span>
-              </div>
-              <span className="text-white font-bold text-base">LossStack</span>
+            <div className="mb-4">
+              <Image
+                src="/LossStack Logo Side.png"
+                alt="LossStack"
+                width={160}
+                height={48}
+                className="h-10 w-auto object-contain"
+              />
             </div>
             <p className="text-sm leading-relaxed text-blue-200/50">
               The AI-powered claims and restoration suite. Purpose-built for insurance and restoration professionals.
