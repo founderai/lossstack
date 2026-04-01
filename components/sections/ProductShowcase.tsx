@@ -16,6 +16,7 @@ const products = [
     borderColor: "#BFDBFE",
     url: "https://appraislyai.com",
     logoSrc: "/Appraisly Logo.png",
+    logoDark: false,
     benefits: [
       { icon: Zap, text: "Generate professional claim narratives in minutes, not hours" },
       { icon: Shield, text: "Side-by-side estimate comparison with variance analysis" },
@@ -32,7 +33,8 @@ const products = [
     bg: "#F0FDFA",
     borderColor: "#99F6E4",
     url: "https://www.imagelablr.com",
-    logoSrc: "/Imagelablr Vector.svg",
+    logoSrc: "/Imagelablr Vector Dark.svg",
+    logoDark: false,
     benefits: [
       { icon: Zap, text: "Label hundreds of claim photos quickly and consistently" },
       { icon: Shield, text: "Organized by room, elevation, and damage category" },
@@ -50,6 +52,7 @@ const products = [
     borderColor: "#FDE68A",
     url: "https://www.restorecam.com",
     logoSrc: "/RestoreCam Logo Bottom .png",
+    logoDark: false,
     benefits: [
       { icon: Zap, text: "Mobile-first capture for moisture readings and jobsite photos" },
       { icon: Shield, text: "Equipment tracking with full chain-of-custody documentation" },
@@ -241,21 +244,16 @@ export default function ProductShowcase() {
               <div className={`grid grid-cols-1 lg:grid-cols-2 gap-0 ${i % 2 === 1 ? "lg:grid-flow-dense" : ""}`}>
                 {/* Content side */}
                 <div className={`p-8 lg:p-10 ${i % 2 === 1 ? "lg:col-start-2" : ""}`}>
-                  {/* Badge */}
-                  <div className="flex items-center gap-3 mb-5">
-                    <div className="w-20 h-12 rounded-xl flex items-center justify-center bg-[#0f1e3c] shrink-0">
-                      <NextImage
-                        src={product.logoSrc}
-                        alt={product.name}
-                        width={120}
-                        height={40}
-                        className="max-w-[100px] max-h-9 w-auto h-auto object-contain"
-                      />
-                    </div>
-                    <div>
-                      <div className="font-bold text-[#0f1e3c] text-lg leading-none">{product.name}</div>
-                      <div className="text-xs font-semibold mt-0.5" style={{ color: product.color }}>{product.badge}</div>
-                    </div>
+                  {/* Logo */}
+                  <div className="mb-5">
+                    <NextImage
+                      src={product.logoSrc}
+                      alt={product.name}
+                      width={400}
+                      height={120}
+                      className="h-14 w-auto object-contain"
+                    />
+                    <div className="text-xs font-semibold mt-2" style={{ color: product.color }}>{product.badge}</div>
                   </div>
 
                   <p className="text-slate-600 text-base leading-relaxed mb-6">{product.tagline}</p>
