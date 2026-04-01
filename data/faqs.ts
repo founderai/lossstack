@@ -26,7 +26,7 @@ export const faqs: FAQ[] = [
   {
     question: "Is there an annual pricing option?",
     answer:
-      "Annual billing options are available. Contact us at founderai@pm.me for annual pricing details.",
+      "All LossStack plans are currently billed monthly — no annual commitment required. Core starts at $99/mo, Pro at $249/mo, and Firm at $499/mo. You can cancel or change plans at any time with no long-term lock-in.",
     category: "Pricing",
   },
   {
@@ -44,7 +44,7 @@ export const faqs: FAQ[] = [
   {
     question: "Is there a free trial available?",
     answer:
-      "Free trial availability varies by app. Visit each app's individual website for current trial and demo options. You can also request a demo of the full LossStack suite directly from this page.",
+      "Yes — LossStack includes a permanent Free tier with no credit card required. It gives you access to all three apps in limited mode plus 3 one-time report credits so you can explore the platform before committing to a paid plan. Upgrade to Core, Pro, or Firm when you're ready.",
     category: "General",
   },
   {
