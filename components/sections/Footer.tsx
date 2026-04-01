@@ -16,9 +16,9 @@ export default function Footer() {
               <Image
                 src="/LossStack Logo Side.png"
                 alt="LossStack"
-                width={160}
-                height={48}
-                className="h-14 w-auto object-contain"
+                width={240}
+                height={80}
+                className="h-20 w-auto object-contain"
               />
             </div>
             <p className="text-sm leading-relaxed text-blue-200/50">

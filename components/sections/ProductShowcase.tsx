@@ -249,9 +249,9 @@ export default function ProductShowcase() {
                     <NextImage
                       src={product.logoSrc}
                       alt={product.name}
-                      width={400}
-                      height={120}
-                      className="h-14 w-auto object-contain"
+                      width={500}
+                      height={160}
+                      className={product.id === "imagelablr" ? "h-20 w-auto object-contain" : "h-16 w-auto object-contain"}
                     />
                     <div className="text-xs font-semibold mt-2" style={{ color: product.color }}>{product.badge}</div>
                   </div>

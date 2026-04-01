@@ -141,7 +141,7 @@ export default function AppsPage() {
                   ) : app.id === "restorecam" ? (
                     <Image src="/Restore Cam Icon.png" alt="RestoreCam" width={20} height={20} className="w-5 h-5 object-contain" />
                   ) : (
-                    <Image src="/Imagelablr Vector.svg" alt="ImageLablr" width={20} height={20} className="w-5 h-5 object-contain" />
+                    <Image src="/Imagelablr Vector Dark.svg" alt="ImageLablr" width={20} height={20} className="w-5 h-5 object-contain" />
                   )}
                 </span>
                 {app.name}
@@ -167,13 +167,17 @@ export default function AppsPage() {
             <div className="flex flex-col lg:flex-row lg:items-start gap-6">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-32 h-14 rounded-2xl flex items-center justify-center bg-[#0f1e3c] shrink-0">
+                  <div className="shrink-0">
                     {currentApp.id === "appraisly" ? (
-                      <Image src="/Appraisly Logo.png" alt="Appraisly" width={160} height={48} className="max-w-[120px] max-h-10 w-auto h-auto object-contain" />
+                      <div className="w-44 h-16 rounded-2xl flex items-center justify-center bg-[#0f1e3c]">
+                        <Image src="/Appraisly Logo.png" alt="Appraisly" width={220} height={64} className="max-w-[180px] max-h-12 w-auto h-auto object-contain" />
+                      </div>
                     ) : currentApp.id === "restorecam" ? (
-                      <Image src="/RestoreCam Logo Bottom .png" alt="RestoreCam" width={160} height={48} className="max-w-[120px] max-h-10 w-auto h-auto object-contain" />
+                      <div className="w-44 h-16 rounded-2xl flex items-center justify-center bg-black">
+                        <Image src="/RestoreCam Logo Bottom .png" alt="RestoreCam" width={220} height={64} className="max-w-[180px] max-h-12 w-auto h-auto object-contain" />
+                      </div>
                     ) : (
-                      <Image src="/Imagelablr Vector.svg" alt="ImageLablr" width={160} height={48} className="max-w-[120px] max-h-10 w-auto h-auto object-contain" />
+                      <Image src="/Imagelablr Vector Dark.svg" alt="ImageLablr" width={400} height={96} className="h-16 w-auto object-contain" />
                     )}
                   </div>
                   <div>
@@ -257,13 +261,13 @@ export default function AppsPage() {
                   }}
                   className="flex items-center gap-4 p-4 rounded-xl border border-slate-200 hover:border-slate-300 hover:shadow-sm transition-all duration-150 text-left"
                 >
-                  <div className="w-16 h-10 rounded-xl flex items-center justify-center bg-[#0f1e3c] shrink-0">
+                  <div className="w-20 h-12 rounded-xl flex items-center justify-center bg-[#0f1e3c] shrink-0 overflow-hidden">
                     {app.id === "appraisly" ? (
-                      <Image src="/Appraisly Logo.png" alt="Appraisly" width={80} height={32} className="max-w-[60px] max-h-8 w-auto h-auto object-contain" />
+                      <Image src="/Appraisly Logo.png" alt="Appraisly" width={100} height={40} className="max-w-[80px] max-h-9 w-auto h-auto object-contain" />
                     ) : app.id === "restorecam" ? (
-                      <Image src="/RestoreCam Logo Bottom .png" alt="RestoreCam" width={80} height={32} className="max-w-[60px] max-h-8 w-auto h-auto object-contain" />
+                      <Image src="/RestoreCam Logo Bottom .png" alt="RestoreCam" width={100} height={40} className="max-w-[80px] max-h-9 w-auto h-auto object-contain" />
                     ) : (
-                      <Image src="/Imagelablr Vector.svg" alt="ImageLablr" width={80} height={32} className="max-w-[60px] max-h-8 w-auto h-auto object-contain" />
+                      <Image src="/Imagelablr Vector Dark.svg" alt="ImageLablr" width={100} height={40} className="w-full max-h-8 h-auto object-contain px-1" />
                     )}
                   </div>
                   <div className="flex-1 min-w-0">

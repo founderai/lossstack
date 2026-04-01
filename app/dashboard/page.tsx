@@ -35,9 +35,9 @@ const portalApps = [
         <Image
           src="/Imagelablr Vector.svg"
           alt="ImageLablr"
-          width={200}
+          width={320}
           height={80}
-          className="max-w-[180px] max-h-24 w-auto h-auto object-contain"
+          className="w-full max-h-16 h-auto object-contain px-4"
         />
       </div>
     ),
@@ -49,7 +49,7 @@ const portalApps = [
     accentColor: "#F59E0B",
     launchUrl: "https://www.restorecam.com/contents",
     logo: (
-      <div className="flex items-center justify-center w-full h-28 bg-[#1a3a6e] rounded-xl">
+      <div className="flex items-center justify-center w-full h-28 bg-black rounded-xl">
         <Image
           src="/RestoreCam Logo Bottom .png"
           alt="RestoreCam"
