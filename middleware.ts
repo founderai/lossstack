@@ -31,7 +31,7 @@ export default clerkMiddleware(async (auth, req) => {
   // Already signed in — break local auth-route loops, but preserve valid satellite redirects
   if (userId && isAuthRoute(req)) {
     if (isAllowedSatelliteRedirect) {
-      return;
+      return NextResponse.redirect(redirectUrl!);
     }
     return NextResponse.redirect(new URL('/dashboard', req.url));
   }
