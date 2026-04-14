@@ -1,10 +1,17 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
+import { NextResponse } from 'next/server';
 
-const isProtectedRoute = createRouteMatcher([
-  '/dashboard(.*)',
-]);
+const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
+const isAuthRoute = createRouteMatcher(['/sign-in(.*)', '/sign-up(.*)']);
 
 export default clerkMiddleware(async (auth, req) => {
+  const { userId } = await auth();
+
+  // Already signed in — break any satellite-app redirect loop by forcing to dashboard
+  if (userId && isAuthRoute(req)) {
+    return NextResponse.redirect(new URL('/dashboard', req.url));
+  }
+
   if (isProtectedRoute(req)) {
     await auth.protect();
   }
