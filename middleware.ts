@@ -29,6 +29,13 @@ function parseRedirectUrl(value: string): URL | null {
 
 export default clerkMiddleware(async (auth, req) => {
   const url = req.nextUrl.clone();
+
+  if (url.hostname === 'lossstack.com') {
+    url.hostname = 'www.lossstack.com';
+    url.protocol = 'https:';
+    return NextResponse.redirect(url);
+  }
+
   const authState = await auth();
 
   if (url.pathname === '/sign-in') {
