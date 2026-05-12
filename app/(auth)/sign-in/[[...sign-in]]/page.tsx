@@ -1,4 +1,6 @@
 import { SignIn } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { redirect } from "next/navigation";
 
 interface PageProps {
   searchParams: Promise<{ redirect_url?: string }>;
@@ -39,8 +41,13 @@ function normalizeRedirectUrl(raw?: string): string | undefined {
 }
 
 export default async function Page({ searchParams }: PageProps) {
+  const { userId } = await auth();
   const params = await searchParams;
   const safeRedirect = normalizeRedirectUrl(params.redirect_url);
+
+  if (userId) {
+    redirect(safeRedirect ?? "/dashboard");
+  }
 
   return (
     <SignIn
