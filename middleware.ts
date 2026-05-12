@@ -29,13 +29,14 @@ function parseRedirectUrl(value: string): URL | null {
 
 export default clerkMiddleware(async (auth, req) => {
   const url = req.nextUrl.clone();
+  const authState = await auth();
 
   if (url.pathname === '/sign-in') {
     const rawRedirect = url.searchParams.get('redirect_url');
+    let normalizedRedirect: string | null = null;
 
     if (rawRedirect) {
       const parsed = parseRedirectUrl(rawRedirect);
-      let normalizedRedirect: string | null = null;
 
       if (parsed) {
         const host = parsed.hostname.toLowerCase();
@@ -51,6 +52,13 @@ export default clerkMiddleware(async (auth, req) => {
         }
       }
 
+      if (authState.userId) {
+        if (normalizedRedirect) {
+          return NextResponse.redirect(normalizedRedirect);
+        }
+        return NextResponse.redirect(new URL('/dashboard', req.url));
+      }
+
       if (normalizedRedirect !== rawRedirect) {
         if (normalizedRedirect) {
           url.searchParams.set('redirect_url', normalizedRedirect);
@@ -60,6 +68,8 @@ export default clerkMiddleware(async (auth, req) => {
 
         return NextResponse.redirect(url);
       }
+    } else if (authState.userId) {
+      return NextResponse.redirect(new URL('/dashboard', req.url));
     }
   }
 
