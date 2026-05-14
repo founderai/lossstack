@@ -29,7 +29,7 @@ const portalApps = [
     name: "ImageLablr",
     tagline: "AI photo labeling and documentation for claims.",
     accentColor: "#0D9488",
-    launchUrl: "https://www.imagelablr.com/dashboard",
+    launchUrl: "https://imagelablr.com/dashboard",
     logo: (
       <div className="flex items-center justify-center w-full h-28 bg-[#0f1e3c] rounded-xl">
         <Image
@@ -47,7 +47,7 @@ const portalApps = [
     name: "RestoreCam",
     tagline: "Field-first documentation for restoration professionals.",
     accentColor: "#F59E0B",
-    launchUrl: "https://www.restorecam.com/contents",
+    launchUrl: "https://restorecam.com/contents",
     logo: (
       <div className="flex items-center justify-center w-full h-28 bg-black rounded-xl">
         <Image
